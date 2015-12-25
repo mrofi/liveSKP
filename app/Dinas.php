@@ -2,12 +2,18 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
-
 class Dinas extends BaseModel
 {
 	protected $table = 'dinas';
     protected $fillable = ['dinas', 'alamat', 'telp', 'email'];
+
+    protected $rules = [
+    	'dinas' => 'required',
+    	'alamat' => 'required',
+    	'telp' => 'required',
+    	'email' => 'required|email',
+
+    ];
 
     public function pns()
     {

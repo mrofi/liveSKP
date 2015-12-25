@@ -12,20 +12,7 @@ class DinasController extends BaseController
 	public function __construct(Model $model, $base = 'dinas')
 	{
 		parent::__construct($model, $base);
+    	view()->share('breadcrumb2Icon', 'dropbox');
 	}
 
-    public function getIndex()
-    {
-    	return view('app.dinas.index');
-    }
-
-    public function getTambah()
-    {
-    	return view('app.dinas.tambah');
-    }
-
-    public function postData($value='')
-    {
-    	# code...
-    }
 }

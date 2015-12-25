@@ -87,6 +87,10 @@ class Builder
     {
         $this->scopes[$identifier] = $scope;
 
+        if (method_exists($scope, 'extend')) {
+            $scope->extend($this);
+        }
+
         return $this;
     }
 
@@ -651,7 +655,7 @@ class Builder
         }
 
         return $this->addHasWhere(
-            $query->applyScopes(), $relation, $operator, $count, $boolean
+            $query, $relation, $operator, $count, $boolean
         );
     }
 
@@ -788,7 +792,7 @@ class Builder
             $relationQuery->wheres, $relationQuery->getBindings()
         );
 
-        $this->query->addBinding($hasQuery->getQuery()->getBindings(), 'where');
+        $this->query->addBinding($hasQuery->getBindings(), 'where');
     }
 
     /**

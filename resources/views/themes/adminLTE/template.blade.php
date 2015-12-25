@@ -7,9 +7,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>@yield('judul', 'Judul') | @yield('nama.app', 'LiveCommerce')</title>
+  <title>{{ $judul or 'Judul' }} | {{ $namaApp or 'LiveSKP' }}</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <!-- CSRF -->
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <!-- Bootstrap 3.3.5 -->
   <link rel="stylesheet" href="{{ asset('backend/bootstrap/css/bootstrap.min.css') }}">
   <!-- Font Awesome -->
@@ -162,14 +164,14 @@ desired effect
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        @yield('judul', 'Page Header')
-        <small>@yield('deskripsi', 'Optional description')</small>
+        {{ $judul or 'Page Header' }}
+        <small>{{ $deskripsi or 'Optional description' }}</small>
       </h1>
       <ol class="breadcrumb">
       @if(isset($breadcrumbLevel))
-        <li><a href="@yield('breadcrumb1.url', '#')"><i class="fa fa-@yield('breadcrumb1.icon', 'dashboard')"></i> @yield('breadcrumb1')</a></li>
-        @if($breadcrumbLevel >= 2)<li class="@yield('breadcrumb2.class', 'active')"><a href="@yield('breadcrumb2.url', 'javascript:;')" >@yield('breadcrumb2', 'Here')</a></li>@endif
-        @if($breadcrumbLevel >= 3)<li class="@yield('breadcrumb3.class', 'active')"><a href="@yield('breadcrumb3.url', 'javascript:;')" >@yield('breadcrumb3', 'Here')</a></li>@endif
+        <li><a href="{{ $breadcrumb1Url or '/' }}"><i class="fa fa-{{ $breadcrumb1Icon or 'dashboard' }}"></i> {{ $breadcrumb1 or 'Menu' }}</a></li>
+        @if($breadcrumbLevel >= 2)<li class="{{ $breadcrumb2Class or 'active' }}"><a href="{{ $breadcrumb2Url or 'javascript:;' }}" ><i class="fa fa-{{ $breadcrumb2Icon or '' }}"></i> {{ $breadcrumb2 or 'Here' }}</a></li>@endif
+        @if($breadcrumbLevel >= 3)<li class="{{ $breadcrumb3Class or 'active' }}"><a href="{{ $breadcrumb3Url or 'javascript:;' }}" ><i class="fa fa-{{ $breadcrumb3Icon or '' }}"></i> {{ $breadcrumb3 or 'Here' }}</a></li>@endif
       @endif
       </ol>
     </section>
@@ -304,10 +306,12 @@ desired effect
         $('.datatables').DataTable({
             processing: true,
             serverSide: true,
-            ajax: {
-              url: '{{ url($base.'/data') }}',
-              type: 'POST',
-            },
+            ajax: '{{ url($base.'/data') }}',
+            columns: [
+              { name: 'id' },
+              @foreach($fields as $field) { name: '{{ $field }}'}, @endforeach
+              { name: 'menu' },
+            ],
         });
     });
 

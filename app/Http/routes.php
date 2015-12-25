@@ -27,7 +27,7 @@ Route::get('/', function () {
 */
 
 // Route::group(['middleware' => ['web']], function () {
-Route::group(['prefix' => '/'], function () {
+Route::group(['prefix' => '/', 'middleware' => ['web']], function () {
     
     Route::get('home', function() {
     	return view('app.home');
