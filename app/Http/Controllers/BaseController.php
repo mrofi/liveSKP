@@ -42,7 +42,7 @@ class BaseController extends Controller
     	view()->share('deskripsi', 'Semua Daftar '.ucwords($this->base));	
     	view()->share('breadcrumb3', 'Lihat Semua');
 
-    	return view('app.'.$this->base.'.index');
+    	return view('partials.appIndex');
     }
 
     public function anyData()
