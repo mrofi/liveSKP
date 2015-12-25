@@ -7,11 +7,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>{{ $judul or 'Judul'}} | {{ $global_params['nama_toko'] or 'nama_toko' }}</title>
+  <title>@yield('judul', 'Judul') | @yield('nama.app', 'LiveCommerce')</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  <!-- CSRF -->
-  <meta name="csrf-token" content="{{ csrf_token() }}">
   <!-- Bootstrap 3.3.5 -->
   <link rel="stylesheet" href="{{ asset('backend/bootstrap/css/bootstrap.min.css') }}">
   <!-- Font Awesome -->
@@ -20,21 +18,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="{{ asset('backend/plugins/ionicons/2.0.1/css/ionicons.min.css') }}">
   <!-- datatables -->
   <link rel="stylesheet" href="{{ asset('backend/plugins/datatables/dataTables.bootstrap.css') }}">
-  <!-- select2 -->
-  <link rel="stylesheet" href="{{ asset('backend/plugins/select2/select2.min.css') }}">
   <!-- Theme style -->
   <link rel="stylesheet" href="{{ asset('backend/dist/css/AdminLTE.min.css') }}">
   <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
         page. However, you can choose any other skin. Make sure you
         apply the skin class to the body tag so the changes take effect.
   -->
-
-  <style>
-    figure img {
-        margin-top: 10px;
-        margin-bottom: 10px;
-    }
-  </style>
   <link rel="stylesheet" href="{{ asset('backend/dist/css/skins/skin-blue.min.css') }}">
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -73,9 +62,9 @@ desired effect
     <!-- Logo -->
     <a href="index2.html" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
-      <span class="logo-mini">{!! $namaAppMini or '<b>P</b>SKP' !!}</span>
+      <span class="logo-mini">@yield('nama.app.mini', '<b>L</b>SKP')</span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg">{!! $namaAppFull or '<b>Penilaian</b>SKP' !!}</span>
+      <span class="logo-lg">@yield('nama.app.full', '<b>Live</b>SKP')</span>
     </a>
 
     <!-- Header Navbar -->
@@ -156,35 +145,11 @@ desired effect
       <!-- Sidebar Menu -->
       <ul class="sidebar-menu">
         <!-- Optionally, you can add icons to the links -->
-        <li class="@if(request()->is('homeadmin'))active @endif"><a href="{{ asset('home') }}"><i class="fa fa-home"></i> <span>Home</span></a></li>
-        <li class="@if(request()->is('dinas*'))active @endif treeview">
-          <a href="{{ asset('dinas') }}"><i class="fa fa-dropbox"></i> <span>Dinas</span> <i class="fa fa-angle-left pull-right"></i></a>
-          <ul class="treeview-menu">
-            <li class="@if(request()->is('dinas'))active @endif"><a href="{{ asset('dinas') }}"><i class="fa fa-list"></i>List</a></li>
-            <li class="@if(request()->is('dinas/create'))active @endif"><a href="{{ asset('dinas/create') }}"><i class="fa fa-plus"></i>Tambah</a></li>
-          </ul>
-        </li>
-        <li class="@if(request()->is('jabatan*'))active @endif treeview">
-          <a href="{{ asset('jabatan') }}"><i class="fa fa-tag"></i> <span>Jabatan</span> <i class="fa fa-angle-left pull-right"></i></a>
-          <ul class="treeview-menu">
-            <li class="@if(request()->is('jabatan'))active @endif"><a href="{{ asset('jabatan') }}"><i class="fa fa-list"></i>List</a></li>
-            <li class="@if(request()->is('jabatan/create'))active @endif"><a href="{{ asset('jabatan/create') }}"><i class="fa fa-plus"></i>Tambah</a></li>
-          </ul>
-        </li>
-        <li class="@if(request()->is('pns*'))active @endif treeview">
-          <a href="{{ asset('pns') }}"><i class="fa fa-male"></i> <span>PNS</span> <i class="fa fa-angle-left pull-right"></i></a>
-          <ul class="treeview-menu">
-            <li class="@if(request()->is('pns'))active @endif"><a href="{{ asset('pns') }}"><i class="fa fa-list"></i>List</a></li>
-            <li class="@if(request()->is('pns/create'))active @endif"><a href="{{ asset('pns/create') }}"><i class="fa fa-plus"></i>Tambah</a></li>
-          </ul>
-        </li>
-        <li class="@if(request()->is('admin/setting*'))active @endif treeview">
-          <a href="{{ asset('admin/setting') }}"><i class="fa fa-cog"></i> <span>Setting</span> <i class="fa fa-angle-left pull-right"></i></a>
-          <ul class="treeview-menu">
-            <li class="@if(request()->is('admin/setting'))active @endif"><a href="{{ asset('admin/setting') }}"><i class="fa fa-list"></i>List</a></li>
-            <li class="@if(request()->is('admin/setting/create'))active @endif"><a href="{{ asset('admin/setting/create') }}"><i class="fa fa-plus"></i>Tambah</a></li>
-          </ul>
-        </li>
+        <li class="@if(request()->is('home'))active @endif"><a href="{{ asset('home') }}"><i class="fa fa-home"></i> <span>Home</span></a></li>
+        <li class="@if(request()->is('dinas*'))active @endif"><a href="{{ asset('dinas') }}"><i class="fa fa-dropbox"></i> <span>Dinas</span></a></li>
+        <li class="@if(request()->is('jabatan*'))active @endif"><a href="{{ asset('jabatan') }}"><i class="fa fa-tag"></i> <span>Jabatan</span></a></li>
+        <li class="@if(request()->is('pns*'))active @endif"><a href="{{ asset('pns') }}"><i class="fa fa-male"></i> <span>PNS</span></a></li>
+        <li class="@if(request()->is('setting*'))active @endif"><a href="{{ asset('setting') }}"><i class="fa fa-cog"></i> <span>Setting</span></a></li>
         <li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
       </ul>
       <!-- /.sidebar-menu -->
@@ -197,16 +162,16 @@ desired effect
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        {{ $judul or 'Page Header' }}
-        <small>{{ $deskripsi or 'Optional description' }}</small>
+        @yield('judul', 'Page Header')
+        <small>@yield('deskripsi', 'Optional description')</small>
       </h1>
-      @if(isset($breadcrumbLevel))
       <ol class="breadcrumb">
-        <li><a href="{{ $breadcrumb1Url or '#' }}"><i class="fa {{ $breadcrumb1Icon or 'fa-dashboard' }}"></i> {{ $breadcrumb1 or 'Home Admin' }}</a></li>
-        @if($breadcrumbLevel >= 2)<li class="{{ $breadcrumb2Class or 'active' }}"><a href="{{ $breadcrumb2Url or 'javascript:;' }}" ><i class="fa {{ $breadcrumb2Icon or 'fa-dashboard' }}"></i> {{ $breadcrumb2 or 'Here' }}</a></li>@endif
-        @if($breadcrumbLevel >= 3)<li class="{{ $breadcrumb3Class or 'active' }}"><a href="{{ $breadcrumb3Url or 'javascript:;' }}" >{{ $breadcrumb3 or 'Here' }}</a></li>@endif
-      </ol>
+      @if(isset($breadcrumbLevel))
+        <li><a href="@yield('breadcrumb1.url', '#')"><i class="fa fa-@yield('breadcrumb1.icon', 'dashboard')"></i> @yield('breadcrumb1')</a></li>
+        @if($breadcrumbLevel >= 2)<li class="@yield('breadcrumb2.class', 'active')"><a href="@yield('breadcrumb2.url', 'javascript:;')" >@yield('breadcrumb2', 'Here')</a></li>@endif
+        @if($breadcrumbLevel >= 3)<li class="@yield('breadcrumb3.class', 'active')"><a href="@yield('breadcrumb3.url', 'javascript:;')" >@yield('breadcrumb3', 'Here')</a></li>@endif
       @endif
+      </ol>
     </section>
 
     <!-- Main content -->
@@ -242,6 +207,8 @@ desired effect
 <script src="{{ asset('backend/plugins/jQuery/jQuery-2.1.4.min.js') }}"></script>
 <!-- Bootstrap 3.3.5 -->
 <script src="{{ asset('backend/bootstrap/js/bootstrap.min.js') }}"></script>
+<!-- AdminLTE App -->
+<script src="{{ asset('backend/dist/js/app.min.js') }}"></script>
 <!-- date-range-picker -->
 <script src="{{ asset('backend/plugins/datepicker/bootstrap-datepicker.js') }}"></script>
 <script src="{{ asset('backend/plugins/datepicker/locales/bootstrap-datepicker.id.js') }}" charset="UTF-8"></script>
@@ -277,15 +244,13 @@ desired effect
 
     $.fn.modal.Constructor.DEFAULTS.backdrop = 'static';
 
-    $.fn.liveCommerceCurrency = {aSep: '.', aDec: ',', aSign: 'Rp. ', lZero: 'deny', mDec: 0};
-    $.fn.liveCommerceNumeric = {aSep: '.', aDec: ',', aSign: '', lZero: 'deny', mDec: 0};
-    $.fn.liveCommerceDecimal = {aSep: '.', aDec: ',', aSign: '', lZero: 'deny'};
+    $.fn.liveposCurrency = {aSep: '.', aDec: ',', aSign: 'Rp. ', lZero: 'deny'};
+    $.fn.liveposNumeric = {aSep: '.', aDec: ',', aSign: '', lZero: 'deny'};
 
     $('select').select2({width: '100%'});              
     
-    $('.input-mask-currency').autoNumeric('init', $.fn.liveCommerceCurrency);
-    $('.input-mask-numeric').autoNumeric('init', $.fn.liveCommerceNumeric);
-    $('.input-mask-decimal').autoNumeric('init', $.fn.liveCommerceDecimal);
+    $('.input-mask-currency').autoNumeric('init', $.fn.liveposCurrency);
+    $('.input-mask-numeric').autoNumeric('init', $.fn.liveposNumeric);
 
 
       var slideToTop = $("<div />");
@@ -331,7 +296,25 @@ desired effect
 
   })
 </script>
+@section('script.footer')
+@if(isset($base))
+<script type="text/javascript">
 
+  $(function() {
+        $('.datatables').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: {
+              url: '{{ url($base.'/data') }}',
+              type: 'POST',
+            },
+        });
+    });
+
+</script> 
+@endif
+
+@stop
 @yield('script.footer')
 
 <!-- Optionally, you can add Slimscroll and FastClick plugins.

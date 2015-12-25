@@ -32,4 +32,8 @@ Route::group(['prefix' => '/'], function () {
     Route::get('home', function() {
     	return view('app.home');
     });
+
+    Route::controller('dinas', 'DinasController');
+    Route::controller('jabatan', 'JabatanController');
+    Route::controller('pns', 'PNSController');
 });

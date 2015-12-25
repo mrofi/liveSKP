@@ -145,42 +145,11 @@ desired effect
       <!-- Sidebar Menu -->
       <ul class="sidebar-menu">
         <!-- Optionally, you can add icons to the links -->
-        <li class="@if(request()->is('admin'))active @endif"><a href="{{ asset('admin') }}"><i class="fa fa-home"></i> <span>Home</span></a></li>
-        <li class="@if(request()->is('admin/customer*'))active @endif treeview">
-          <a href="{{ asset('admin/customer') }}"><i class="fa fa-male"></i> <span>Customer</span> <i class="fa fa-angle-left pull-right"></i></a>
-          <ul class="treeview-menu">
-            <li class="@if(request()->is('admin/customer'))active @endif"><a href="{{ asset('admin/customer') }}"><i class="fa fa-list"></i>List</a></li>
-            <li class="@if(request()->is('admin/customer/create'))active @endif"><a href="{{ asset('admin/customer/create') }}"><i class="fa fa-plus"></i>Tambah</a></li>
-          </ul>
-        </li>
-        <li class="@if(request()->is('admin/brand*'))active @endif treeview">
-          <a href="{{ asset('admin/brand') }}"><i class="fa fa-tag"></i> <span>Merk</span> <i class="fa fa-angle-left pull-right"></i></a>
-          <ul class="treeview-menu">
-            <li class="@if(request()->is('admin/brand'))active @endif"><a href="{{ asset('admin/brand') }}"><i class="fa fa-list"></i>List</a></li>
-            <li class="@if(request()->is('admin/brand/create'))active @endif"><a href="{{ asset('admin/brand/create') }}"><i class="fa fa-plus"></i>Tambah</a></li>
-          </ul>
-        </li>
-        <li class="@if(request()->is('admin/kategori*'))active @endif treeview">
-          <a href="{{ asset('admin/kategori') }}"><i class="fa fa-list"></i> <span>Kategori Produk</span> <i class="fa fa-angle-left pull-right"></i></a>
-          <ul class="treeview-menu">
-            <li class="@if(request()->is('admin/kategori'))active @endif"><a href="{{ asset('admin/kategori') }}"><i class="fa fa-list"></i>List</a></li>
-            <li class="@if(request()->is('admin/kategori/create'))active @endif"><a href="{{ asset('admin/kategori/create') }}"><i class="fa fa-plus"></i>Tambah</a></li>
-          </ul>
-        </li>
-        <li class="@if(request()->is('admin/produk*'))active @endif treeview">
-          <a href="{{ asset('admin/produk') }}"><i class="fa fa-dropbox"></i> <span>Produk</span> <i class="fa fa-angle-left pull-right"></i></a>
-          <ul class="treeview-menu">
-            <li class="@if(request()->is('admin/produk'))active @endif"><a href="{{ asset('admin/produk') }}"><i class="fa fa-list"></i>List</a></li>
-            <li class="@if(request()->is('admin/produk/create'))active @endif"><a href="{{ asset('admin/produk/create') }}"><i class="fa fa-plus"></i>Tambah</a></li>
-          </ul>
-        </li>
-        <li class="@if(request()->is('admin/pesanan*'))active @endif treeview">
-          <a href="{{ asset('admin/pesanan') }}"><i class="fa fa-shopping-cart"></i> <span>Pesanan</span> <i class="fa fa-angle-left pull-right"></i></a>
-          <ul class="treeview-menu">
-            <li class="@if(request()->is('admin/pesanan'))active @endif"><a href="{{ asset('admin/pesanan') }}"><i class="fa fa-list"></i>List</a></li>
-            <li class="@if(request()->is('admin/pesanan/create'))active @endif"><a href="{{ asset('admin/pesanan/create') }}"><i class="fa fa-plus"></i>Tambah</a></li>
-          </ul>
-        </li>
+        <li class="@if(request()->is('home'))active @endif"><a href="{{ asset('home') }}"><i class="fa fa-home"></i> <span>Home</span></a></li>
+        <li class="@if(request()->is('dinas*'))active @endif"><a href="{{ asset('dinas') }}"><i class="fa fa-dropbox"></i> <span>Dinas</span></a></li>
+        <li class="@if(request()->is('jabatan*'))active @endif"><a href="{{ asset('jabatan') }}"><i class="fa fa-tag"></i> <span>Jabatan</span></a></li>
+        <li class="@if(request()->is('pns*'))active @endif"><a href="{{ asset('pns') }}"><i class="fa fa-male"></i> <span>PNS</span></a></li>
+        <li class="@if(request()->is('setting*'))active @endif"><a href="{{ asset('setting') }}"><i class="fa fa-cog"></i> <span>Setting</span></a></li>
         <li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
       </ul>
       <!-- /.sidebar-menu -->
