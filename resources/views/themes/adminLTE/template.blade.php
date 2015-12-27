@@ -18,6 +18,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="{{ asset('backend/plugins/font-awesome/4.4.0/css/font-awesome.min.css') }}">
   <!-- Ionicons -->
   <link rel="stylesheet" href="{{ asset('backend/plugins/ionicons/2.0.1/css/ionicons.min.css') }}">
+  <!-- Select2 -->
+  <link rel="stylesheet" href="{{ asset('backend/plugins/select2/select2.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('backend/plugins/select2/select2-bootstrap.min.css') }}">
+  <!-- Datepicker -->
+  <link rel="stylesheet" href="{{ asset('backend/plugins/datepicker/datepicker3.css') }}">
   <!-- datatables -->
   <link rel="stylesheet" href="{{ asset('backend/plugins/datatables/dataTables.bootstrap.css') }}">
   <!-- Theme style -->
@@ -211,6 +216,8 @@ desired effect
 <script src="{{ asset('backend/bootstrap/js/bootstrap.min.js') }}"></script>
 <!-- AdminLTE App -->
 <script src="{{ asset('backend/dist/js/app.min.js') }}"></script>
+<!-- date js -->
+<script src="{{ asset('backend/plugins/datejs/date.js') }}"></script>
 <!-- date-range-picker -->
 <script src="{{ asset('backend/plugins/datepicker/bootstrap-datepicker.js') }}"></script>
 <script src="{{ asset('backend/plugins/datepicker/locales/bootstrap-datepicker.id.js') }}" charset="UTF-8"></script>
@@ -234,9 +241,13 @@ desired effect
     e=function(f){return f.split('').reverse().join('')};b=e(parseInt(this,10).toString());for(c=0,d='';c<b.length;c++){d+=b[c];if((c+1)%3===0&&c!==(b.length-1)){d+='.';}}return(a?a:'Rp.\t')+e(d);
   }
   $(function() {
-    $.fn.datepicker.defaults.format = "{{ config('livepos.dateformat') }}";
-    $.fn.datepicker.defaults.language = "id";
+    $.fn.datepicker.defaults.format = "{{ config('liveapp.dateformat', 'dd-MM-yyyy') }}";
+    $.fn.datepicker.defaults.language = "en";
     $.fn.datepicker.defaults.todayHighlight = true;
+    $.fn.datepicker.defaults.autoclose = true;
+    $.fn.datepicker.defaults.forceParse = false;
+
+    $('.datepicker').datepicker();          
 
     $.ajaxSetup({
       headers: {
@@ -249,11 +260,31 @@ desired effect
     $.fn.liveposCurrency = {aSep: '.', aDec: ',', aSign: 'Rp. ', lZero: 'deny'};
     $.fn.liveposNumeric = {aSep: '.', aDec: ',', aSign: '', lZero: 'deny'};
 
-    $('select').select2({width: '100%'});              
+    $('select').select2({windowdth: '100%'});    
     
-    $('.input-mask-currency').autoNumeric('init', $.fn.liveposCurrency);
-    $('.input-mask-numeric').autoNumeric('init', $.fn.liveposNumeric);
+    $('.input-mask.input-mask-currency').autoNumeric('init', $.fn.liveposCurrency);
+    $('.input-mask.input-mask-numeric').autoNumeric('init', $.fn.liveposNumeric);
 
+    $('form').submit(function(e) {
+
+      var form = $(this);
+      console.log(form);
+      form.find('.btn-primary').prop('disabled', true); 
+      form.find('.input-mask').each(function(i, e) {
+        var v = $(this).autoNumeric('get');
+        console.log(v)
+        $(this).val(v);
+      })
+      form.find('.datepicker').each(function(i, e) {
+        var v = $(this).val();
+        console.log(v)
+        console.log($.fn.datepicker.defaults.format)
+        d = Date.parseExact(v, [$.fn.datepicker.defaults.format, 'dd-MMM-yyyy']);
+        newDate = d.toString('yyyy-M-dd');
+        $(this).val(newDate);
+      })
+      return true;
+    })
 
       var slideToTop = $("<div />");
       slideToTop.html('<i class="fa fa-chevron-up"></i>');
@@ -296,29 +327,22 @@ desired effect
         }, 500);
       });
 
-  })
-</script>
-@section('script.footer')
-@if(isset($base))
-<script type="text/javascript">
-
-  $(function() {
-        $('.datatables').DataTable({
-            processing: true,
-            serverSide: true,
-            ajax: '{{ url($base.'/data') }}',
-            columns: [
-              { name: 'id' },
-              @foreach($fields as $field) { name: '{{ $field }}'}, @endforeach
-              { name: 'menu' },
-            ],
-        });
+  @if(isset($base))
+    $('.datatables').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: '{{ url($base.'/data') }}',
+        columns: [
+          @foreach($fields as $field) { name: '{{ $field }}'}, @endforeach
+          { name: 'menu', sortable: false },
+        ],
     });
+  
+  })
+  @endif
 
-</script> 
-@endif
+</script>
 
-@stop
 @yield('script.footer')
 
 <!-- Optionally, you can add Slimscroll and FastClick plugins.

@@ -8,10 +8,15 @@
   	<div class="box-body">
 		<table class="table datatables">
 			<thead>
-				<th>ID</th>
-				@foreach($fields as $field)
+			@if(isset($datatablesFields))
+		     	@foreach($datatablesFields as $field)
 				<th>{{ $field }}</th>
 				@endforeach
+		    @else
+				@foreach($fields as $field)
+				<th>{{ ucwords(implode(' ', explode('_', $field))) }}</th>
+				@endforeach
+			@endif
 				<th>Menu</th>
 			</thead>
 		</table>  	  	

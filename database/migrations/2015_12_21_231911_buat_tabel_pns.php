@@ -13,7 +13,7 @@ class BuatTabelPns extends Migration
     public function up()
     {
         Schema::create('pns', function (Blueprint $table) {
-            $table->increments('id');
+            $table->string('nip', 25)->unique();
             $table->string('nama');
             $table->string('alamat');
             $table->string('jenis_kelamin', 1); // L atau P
@@ -24,6 +24,7 @@ class BuatTabelPns extends Migration
             $table->integer('dinas_id')->unisigned()->nullable();
             $table->integer('user_id')->unisigned()->nullable();
             $table->timestamps();
+            $table->primary('nip');
         });
     }
 
