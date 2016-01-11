@@ -60,7 +60,7 @@ desired effect
 |               | sidebar-mini                            |
 |---------------------------------------------------------|
 -->
-<body class="hold-transition skin-blue sidebar-mini">
+<body class="hold-transition skin-blue sidebar-mini  sidebar-collapse">
 <div class="wrapper">
 
   <!-- Main Header -->
@@ -214,8 +214,6 @@ desired effect
 <script src="{{ asset('backend/plugins/jQuery/jQuery-2.1.4.min.js') }}"></script>
 <!-- Bootstrap 3.3.5 -->
 <script src="{{ asset('backend/bootstrap/js/bootstrap.min.js') }}"></script>
-<!-- AdminLTE App -->
-<script src="{{ asset('backend/dist/js/app.min.js') }}"></script>
 <!-- date js -->
 <script src="{{ asset('backend/plugins/datejs/date.js') }}"></script>
 <!-- date-range-picker -->
@@ -337,9 +335,9 @@ desired effect
           { name: 'menu', sortable: false },
         ],
     });
+  @endif
   
   })
-  @endif
 
 </script>
 
