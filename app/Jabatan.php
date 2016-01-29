@@ -5,7 +5,7 @@ namespace App;
 class Jabatan extends BaseModel
 {
     protected $table = 'jabatan';
-    protected $fillable = ['jabatan'];
+    protected $fillable = ['jabatan', 'struktural'];
 
     public function pns()
     {

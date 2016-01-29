@@ -8,7 +8,7 @@ class PNS extends BaseModel
 {
     protected $table = 'pns';
     protected $primaryKey = 'nip';
-    protected $fillable = ['nip', 'nama', 'alamat', 'jenis_kelamin', 'telp', 'email', 'tmt', 'jabatan_id', 'dinas_id', 'user_id'];
+    protected $fillable = ['nip', 'nama', 'alamat', 'jenis_kelamin', 'telp', 'email', 'tmt', 'jabatan_id', 'dinas_id', 'pengguna_id', 'atasan_nip'];
     protected $dates = ['tmt'];
     protected $dependencies = ['jabatan', 'dinas'];
     protected $rules = [
@@ -23,6 +23,13 @@ class PNS extends BaseModel
 
     const LAKILAKI = 'L';
     const PEREMPUAN = 'P';
+
+    public function getFillable()
+    {
+        $fillable = parent::getFillable();
+
+        return array_flip(array_except(array_flip($fillable), ['pengguna_id', 'atasan_nip']));
+    }
 
     public static function getJenisKelamin()
     {
@@ -47,6 +54,11 @@ class PNS extends BaseModel
     public function getTmtAttribute($value)
     {
     	return (new Carbon($value))->format('d-F-Y');
+    }
+
+    public function getNipAttribute($value)
+    {
+        return "$value";
     }
 
 }

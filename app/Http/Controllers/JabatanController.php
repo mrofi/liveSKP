@@ -14,4 +14,21 @@ class JabatanController extends BaseController
 		parent::__construct($model, $base);
     	view()->share('breadcrumb2Icon', 'tag');
 	}
+
+    public function processRequest($request)
+    {
+        if (!$request->has('struktural')) {
+            $request->merge(['struktural' => 0]);
+        }
+
+        return $request;
+    }
+
+    protected function processDatatables($datatables)
+    {
+        return $datatables
+            ->editColumn('struktural', function($data) {
+                return ($data->struktural) ? '<span class="label label-success"><i class="fa fa-check"></i></span>' : '<span class="label label-default"><i class="fa fa-times"></i></span>';
+            });
+    }
 }

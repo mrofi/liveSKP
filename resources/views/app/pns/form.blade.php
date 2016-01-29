@@ -84,6 +84,15 @@
 		</div>
 	</div>
 
+	<div class="row form-group">
+		<div class="col-md-3">
+			{!! Form::label('atasan', 'Atasan', ['class' => 'control-label']) !!}
+		</div>
+		<div class="col-md-9">
+			{!! Form::select('atasan', [null => 'Pilih Atasan'] + $atasans, $pns->atasan_nip, ['class' => 'form-control']) !!}
+		</div>
+	</div>
+
 
 @stop
 

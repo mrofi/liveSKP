@@ -36,4 +36,5 @@ Route::group(['prefix' => '/', 'middleware' => ['web']], function () {
     Route::controller('dinas', 'DinasController');
     Route::controller('jabatan', 'JabatanController');
     Route::controller('pns', 'PNSController');
+    Route::controller('skp', 'SKPController');
 });

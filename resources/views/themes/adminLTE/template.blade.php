@@ -153,6 +153,8 @@ desired effect
       <ul class="sidebar-menu">
         <!-- Optionally, you can add icons to the links -->
         <li class="@if(request()->is('home'))active @endif"><a href="{{ asset('home') }}"><i class="fa fa-home"></i> <span>Home</span></a></li>
+        <li class="@if(request()->is('penilaian'))active @endif"><a href="{{ asset('penilaian') }}"><i class="fa fa-files-o"></i> <span>Semua SKP</span></a></li>
+        <li class="@if(request()->is('skp*'))active @endif"><a href="{{ asset('skp') }}"><i class="fa fa-file-o"></i> <span>SKP Saya</span></a></li>
         <li class="@if(request()->is('dinas*'))active @endif"><a href="{{ asset('dinas') }}"><i class="fa fa-dropbox"></i> <span>Dinas</span></a></li>
         <li class="@if(request()->is('jabatan*'))active @endif"><a href="{{ asset('jabatan') }}"><i class="fa fa-tag"></i> <span>Jabatan</span></a></li>
         <li class="@if(request()->is('pns*'))active @endif"><a href="{{ asset('pns') }}"><i class="fa fa-male"></i> <span>PNS</span></a></li>
@@ -245,7 +247,8 @@ desired effect
     $.fn.datepicker.defaults.autoclose = true;
     $.fn.datepicker.defaults.forceParse = false;
 
-    $('.datepicker').datepicker();          
+    $('.datepicker').datepicker(); 
+    var form = $('form');      
 
     $.ajaxSetup({
       headers: {
@@ -263,10 +266,7 @@ desired effect
     $('.input-mask.input-mask-currency').autoNumeric('init', $.fn.liveposCurrency);
     $('.input-mask.input-mask-numeric').autoNumeric('init', $.fn.liveposNumeric);
 
-    $('form').submit(function(e) {
-
-      var form = $(this);
-      console.log(form);
+    form.submit(function(e) {
       form.find('.btn-primary').prop('disabled', true); 
       form.find('.input-mask').each(function(i, e) {
         var v = $(this).autoNumeric('get');
@@ -275,10 +275,8 @@ desired effect
       })
       form.find('.datepicker').each(function(i, e) {
         var v = $(this).val();
-        console.log(v)
-        console.log($.fn.datepicker.defaults.format)
         d = Date.parseExact(v, [$.fn.datepicker.defaults.format, 'dd-MMM-yyyy']);
-        newDate = d.toString('yyyy-M-dd');
+        newDate = d.toString('yyyy-MM-dd');
         $(this).val(newDate);
       })
       return true;
@@ -331,8 +329,8 @@ desired effect
         serverSide: true,
         ajax: '{{ url($base.'/data') }}',
         columns: [
-          @foreach($fields as $field) { name: '{{ $field }}'}, @endforeach
-          { name: 'menu', sortable: false },
+          @foreach($fields as $field) { name: '{{ $field }}', data: '{{ $field }}'}, @endforeach
+          { name: 'menu', data: 'menu', sortable: false },
         ],
     });
   @endif
