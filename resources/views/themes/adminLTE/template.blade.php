@@ -327,9 +327,9 @@ desired effect
     $('.datatables').DataTable({
         processing: true,
         serverSide: true,
-        ajax: '{{ url($base.'/data') }}',
+        ajax: '{{ $dataUrl or url($base.'/data') }}',
         columns: [
-          @foreach($fields as $field) { name: '{{ $field }}', data: '{{ $field }}'}, @endforeach
+          @foreach($fields as $field) { name: '{{ $field }}', data: '{{ $field }}', sortable: {{ in_array($field, $unsortables) ? 'false' : 'true'}}}, @endforeach
           { name: 'menu', data: 'menu', sortable: false },
         ],
     });

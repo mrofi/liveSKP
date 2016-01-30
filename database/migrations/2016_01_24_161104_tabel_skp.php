@@ -17,6 +17,7 @@ class TabelSkp extends Migration
             $table->integer('periode_id')->unsigned()->nullable();
             $table->string('pns_nip', 25)->nullable();
             $table->string('penilai_nip', 25)->nullable();
+            $table->integer('nilai')->unsigned();
             $table->date('tanggal_penilaian')->nullable();
             $table->timestamps();
 

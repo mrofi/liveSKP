@@ -4,20 +4,26 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Form;
 use App\SKP;
 use App\PNS;
 use App\TargetKerja as Model;
 use App\Http\Requests;
+use App\LiveServices\AutoNumbering;
 
 class SKPController extends BaseController
 {
 
     protected $targetKerja;
     protected $skp;
+    protected $pns;
+    protected $unsortables = ['nomor', 'penilaian_kuantitas', 'penilaian_kualitas', 'penilaian_waktu', 'penilaian_biaya'];
 
     public function __construct(Model $model, $base = 'skp')
     {
         parent::__construct($model, $base);
+        $this->pns = PNS::with(['atasan', 'jabatan', 'dinas', 'skps'])->first();
+        $this->skp = $this->pns->skps->last();
         $this->judulIndex = 'SKP Saya';
         $this->deskripsiIndex = 'SKP Saya';
         $this->breadcrumb3Index = 'Lihat';
@@ -28,18 +34,32 @@ class SKPController extends BaseController
         $this->deskripsiEdit = 'Form untuk Edit Target Kerja';
         $this->breadcrumb3Edit = 'Edit Target Kerja';
         view()->share('breadcrumb2', 'SKP Saya');
-        view()->share('breadcrumb2Icon', 'file-o');    
+        view()->share('breadcrumb2Icon', 'file-o');  
     }
 
     public function getIndex()
     {
         parent::getIndex();
-        view()->share('breadcrumb3', 'Lihat');
         $fields = $this->model->getFillable();
-        $fields = array_flip(array_except(array_flip($fields), ['satuan_kuantitas', 'satuan_kualitas', 'satuan_waktu', 'satuan_biaya']));
-
+        $fields = array_flip(array_except(array_flip($fields), ['id', 'satuan_kuantitas', 'satuan_kualitas', 'satuan_waktu', 'satuan_biaya']));
+        $fields = array_merge(['nomor'] + $fields, ['penilaian_kuantitas', 'penilaian_kualitas', 'penilaian_waktu', 'penilaian_biaya']);
         view()->share('fields', $fields);
-        return view('app.skp.index');
+        $pns = $this->pns;
+        $penilai = $pns->atasan;
+        $dataUrl = action('SKPController@anyData', ['id' => $this->skp->id]);
+        return view('app.skp.index', compact('pns', 'penilai', 'dataUrl'));
+    }
+
+    public function getShow($skp_id)
+    {
+        $skp = SKP::findOrFail($skp_id);
+        $this->pns = $skp->pns;
+        view()->share('dataUrl', action('SKPController@anyData', ['id' => $skp_id]));
+        $this->judulIndex = 'Penilaian SKP - '.$skp->pns->nip;
+        $this->deskripsiIndex = ' ';
+        $this->breadcrumb3Index = $skp->pns->nip;
+        view()->share('breadcrumb2', 'Semua SKP');
+        return $this->getIndex();
     }
 
     protected function processRequest($request)
@@ -51,9 +71,8 @@ class SKPController extends BaseController
 
     public function postTambah(Request $request)
     {
-        $pns = PNS::first();
-        $pns_nip = $pns->nip;
-        $penilai_nip = $pns->atasan_nip;
+        $pns_nip = $this->pns->nip;
+        $penilai_nip = $this->pns->atasan_nip;
         $this->skp = SKP::create(compact('pns_nip', 'penilai_nip'));
 
         return parent::postTambah($request);
@@ -69,21 +88,55 @@ class SKPController extends BaseController
     protected function processDatatables($datatables)
     {
         return $datatables
-            ->editColumn('periode_id', function($data) {
-                if ($data->periode !== null) return $data->periode->awal . ' - ' .$data->periode->awal;
+            ->editColumn('kuantitas', function($data) {
+                return $data->kuantitas.' '.$data->satuan_kuantitas;
+            })
+            ->editColumn('kualitas', function($data) {
+                return $data->kualitas.' '.$data->satuan_kualitas;
+            })
+            ->editColumn('waktu', function($data) {
+                return $data->waktu.' '.$data->satuan_waktu;
+            })
+            ->editColumn('biaya', function($data) {
+                return $data->biaya.' '.$data->satuan_biaya;
+            })
+            ->addColumn('penilaian_kuantitas', function($data) {
+                if ($data->penilaian) 
+                {
+                    return $data->penilaian->kuantitas.' '.$data->satuan_kuantitas;
+                }
                 return '-';
             })
-            ->editColumn('pns_id', function($data) {
-                if ($data->pns !== null) return $data->pns->nip . ' - '. $data->pns->nama;
+            ->addColumn('penilaian_kualitas', function($data) {
+                if ($data->penilaian) 
+                {
+                    return $data->penilaian->kualitas.' '.$data->satuan_kualitas;
+                }
                 return '-';
             })
-            ->editColumn('penilai_id', function($data) {
-                if ($data->penilai !== null) return $data->penilai->nip . ' - '. $data->penilai->nama;
+            ->addColumn('penilaian_waktu', function($data) {
+                if ($data->penilaian) 
+                {
+                    return $data->penilaian->waktu.' '.$data->satuan_waktu;
+                }
                 return '-';
             })
-            ->removeColumn('periode')
-            ->removeColumn('pns')
-            ->removeColumn('penilai');
+            ->addColumn('penilaian_biaya', function($data) {
+                if ($data->penilaian) 
+                {
+                    return $data->penilaian->biaya.' '.$data->satuan_biaya;
+                }
+                return '-';
+            })
+            ->addColumn('nomor', function($data) {
+                return AutoNumbering::getNumber();
+            })
+            ->editColumn('menu', function ($data) {
+                return
+                '<a href="'.action($this->baseClass.'@getEdit', [$data->{$this->model->getKeyName()}]).'" class="btn btn-small btn-link"><i class="fa fa-xs fa-pencil"></i> Edit</a> '.
+                Form::open(['style' => 'display: inline!important', 'method' => 'delete', 'action' => [$this->baseClass.'@deleteHapus', $data->{$this->model->getKeyName()}]]).'  <button type="submit" onClick="return confirm(\'Yakin mau menghapus?\');" class="btn btn-small btn-link"><i class="fa fa-xs fa-trash-o"></i> Delete</button></form>'.
+                '<a href="/penilaian/'.$data->id.'   " class="btn btn-small btn-link"><i class="fa fa-xs fa-check"></i> Beri Nilai</a>';
+            });
     }
 
 

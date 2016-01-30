@@ -2,11 +2,70 @@
 
 @section('content')
 <div class="row">
-    <div class="col-md-6">
-        PNS
+    <div class="col-sm-6">
+            <div class="row">
+                <label class="col-sm-2 control-label"><h4>PNS</h4></label>
+            </div>
+            <div class="row">
+                <label class="col-sm-2 control-label">Nama</label>
+                <div class="col-sm-9">
+                    <p class="form-control-static">{{ $pns->nama }}</p>
+                </div>
+            </div>
+            <div class="row">
+                <label class="col-sm-2 control-label">NIP</label>
+                <div class="col-sm-9">
+                    <p class="form-control-static">{{ $pns->nip }}</p>
+                </div>
+            </div>
+            <div class="row">
+                <label class="col-sm-2 control-label">Jabatan</label>
+                <div class="col-sm-9">
+                    <p class="form-control-static">{{ $pns->jabatan->jabatan }}</p>
+                </div>
+            </div>
+            <div class="row">
+                <label class="col-sm-2 control-label">Dinas</label>
+                <div class="col-sm-9">
+                    <p class="form-control-static">{{ $pns->dinas->dinas }}</p>
+                </div>
+            </div>
     </div>
-    <div class="col-md-6">
-        PENILAI
+    <div class="col-sm-6">
+            <div class="row">
+                <label class="col-sm-2 control-label"><h4>Penilai</h4></label>
+            </div>
+        @if(!$penilai) - @else
+            <div class="row">
+                <label class="col-sm-2 control-label">Nama</label>
+                <div class="col-sm-9">
+                    <p class="form-control-static">{{ $penilai->nama }}</p>
+                </div>
+            </div>
+            <div class="row">
+                <label class="col-sm-2 control-label">NIP</label>
+                <div class="col-sm-9">
+                    <p class="form-control-static">{{ $penilai->nip }}</p>
+                </div>
+            </div>
+            <div class="row">
+                <label class="col-sm-2 control-label">Jabatan</label>
+                <div class="col-sm-9">
+                    <p class="form-control-static">{{ $penilai->jabatan->jabatan }}</p>
+                </div>
+            </div>
+            <div class="row">
+                <label class="col-sm-2 control-label">Dinas</label>
+                <div class="col-sm-9">
+                    <p class="form-control-static">{{ $penilai->dinas->dinas }}</p>
+                </div>
+            </div>
+        @endif
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <hr>
     </div>
 </div>
 <h4>

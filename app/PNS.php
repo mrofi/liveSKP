@@ -36,6 +36,11 @@ class PNS extends BaseModel
     	return [static::LAKILAKI => 'Laki-laki', static::PEREMPUAN => 'Perempuan'];
     }
 
+    public function atasan()
+    {
+        return $this->belongsTo(PNS::class, 'atasan_nip', 'nip');
+    }
+
     public function jabatan()
     {
     	return $this->belongsTo(Jabatan::class);
@@ -49,6 +54,11 @@ class PNS extends BaseModel
     public function user()
     {
     	return $this->belongsTo(User::class);
+    }
+
+    public function skps()
+    {
+        return $this->hasMany(SKP::class, 'pns_nip');
     }
 
     public function getTmtAttribute($value)

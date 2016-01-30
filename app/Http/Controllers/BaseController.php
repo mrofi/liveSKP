@@ -16,6 +16,7 @@ class BaseController extends Controller
     protected $baseClass;
     protected $fields;
     protected $judulIndex;
+    protected $breadcrumb3Index;
     protected $judulTambah;
     protected $judulEdit;
     protected $deskripsiIndex;
@@ -23,6 +24,7 @@ class BaseController extends Controller
     protected $deskripsiEdit;
     protected $breadcrumb3Tambah;
     protected $actionTambah;
+    protected $unsortables = [];
 
 
     public function __construct(Model $model, $base = '')
@@ -34,6 +36,7 @@ class BaseController extends Controller
         $primaryKey = $this->model->getKeyName();
         $this->fields = ( in_array($primaryKey, $fields) ? [] : [null => $primaryKey] ) + $this->model->getFillable();
 
+        view()->share('unsortables', $this->unsortables);
         view()->share('model', $this->model);
         view()->share('baseClass', $this->baseClass);
         view()->share('fields', $this->fields);
@@ -63,27 +66,34 @@ class BaseController extends Controller
     {
         view()->share('judul', ($this->judulIndex) ? $this->judulIndex : ucwords($this->base));
         view()->share('deskripsi', ($this->deskripsiIndex) ? $this->deskripsiIndex : 'Semua Daftar '.ucwords($this->base));
-        view()->share('breadcrumb3', 'Lihat Semua');
+        view()->share('breadcrumb3', ($this->breadcrumb3Index) ? $this->breadcrumb3Index : 'Lihat Semua');
 
         return view('partials.appIndex');
     }
 
-    public function anyData()
+    public function anyData($id = null)
     {
-        $datas = $this->model->select([null => $this->model->getKeyName()]+$this->model->getFillable());
+        $datas = $this->model;
+        
+        if ($id !== null) {
+            $datas = $datas->where($this->model->getKeyName(), $id);
+        }
+
+        $datas = $datas->select([null => $this->model->getKeyName()]+$this->model->getFillable());
 
         if ($dependencies = $this->model->dependencies()) {
             $datas = $datas->with($dependencies);
         }
 
         $datatables = Datatables::of($datas);
-        $datatables = $this->processDatatables($datatables);
-        $result = $datatables
+        $datatables = $datatables
             ->addColumn('menu', function ($data) {
                 return
                 '<a href="'.action($this->baseClass.'@getEdit', [$data->{$this->model->getKeyName()}]).'" class="btn btn-small btn-link"><i class="fa fa-xs fa-pencil"></i> Edit</a> '.
                 Form::open(['style' => 'display: inline!important', 'method' => 'delete', 'action' => [$this->baseClass.'@deleteHapus', $data->{$this->model->getKeyName()}]]).'  <button type="submit" onClick="return confirm(\'Yakin mau menghapus?\');" class="btn btn-small btn-link"><i class="fa fa-xs fa-trash-o"></i> Delete</button></form>';
-            })
+            });
+
+        $result = $this->processDatatables($datatables)
             ->make(true);
 
         return $result;

@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use DB;
+use Form;
+use Datatables;
 use App\TargetKerja;
 use App\SKP as Model;
 use App\Http\Requests;
@@ -18,26 +21,80 @@ class PenilaianController extends BaseController
         $this->judulIndex = 'Semua SKP';
         $this->deskripsiIndex = 'Daftar Semua SKP';
         parent::__construct($model, $base);
-        $this->targetKerja = new TargetKerja();
         view()->share('breadcrumb2', 'Semua SKP');
         view()->share('breadcrumb2Icon', 'files-o');    
     }
 
-    public function getIndex()
+    public function semua()
     {
         parent::getIndex();
-        $newFields = ['periode_id' => 'periode', 'pns_nip' => 'pns', 'penilai_nip' => 'penilai'];
-        $delFields = [];
+        view()->share('breadcrumb3', 'Lihat Semua');
         $fields = $this->model->getFillable();
-        foreach ($fields as $key => $value) {
-            if ($value == array_key_exists($value, $newFields)) $fields[$key] = $newFields[$value];
-            $fields[$key] = ucwords(implode(' ', explode('_', $fields[$key])));
-            if (in_array($value, $delFields)) unset($fields[$key]);
-        }
-        view()->share('datatablesFields', $fields);
-    
+        $fields = array_flip(array_except(array_flip($fields), ['periode_id', 'penilai_nip']));
+        // $fields = array_merge($fields, ['nilai', 'tanggal_penilaian']);
+        view()->share('fields', $fields);
+        return view('app.penilaian.index');
+    }
 
-        return view('partials.appIndex');
+    public function data()
+    {
+        $datas = $this->model->select([null => $this->model->getKeyName()]+$this->model->getFillable());
+
+        if ($dependencies = $this->model->dependencies()) {
+            $datas = $datas->with($dependencies);
+        }
+
+        $datatables = Datatables::of($datas);
+        $datatables = $this->processDatatables($datatables);
+        $result = $datatables
+            ->addColumn('menu', function ($data) {
+                return
+                '<a href="/skp/'.$data->id.'" class="btn btn-small btn-link"><i class="fa fa-xs fa-pencil"></i> Edit</a> ';
+            })
+            ->make(true);
+
+        return $result;
+    }
+
+    public function getEdit($id)
+    {
+        $model = TargetKerja::with(['penilaian', 'skp'])->where('id', $id)->first();
+        if ($model == null) {
+            abort('404', 'Data not found');
+        }
+        // $model = $this->model->findOrFail($id);
+        ${$this->base} = $model;
+        $pns = $model->skp->pns;
+
+        view()->share('judul', '');
+        view()->share('deskripsi', '');
+        view()->share('breadcrumb3', 'Beri Nilai');
+        view()->share('action', 'postEdit');
+        view()->share('params', compact('id'));
+        view()->share('formCancelUrl', '/skp/'.$model->skp->id);
+
+
+        return view("app.{$this->base}.form", compact($this->base, 'pns'));
+    }
+
+    public function postEdit(Request $request, $id)
+    {
+        $targetKerja = TargetKerja::with(['penilaian', 'skp'])->where('id', $id)->first();
+
+        $model = $targetKerja->penilaian;
+
+        if ($model == null) {
+            $model = $targetKerja->penilaian()->create([]);
+        }
+        // $model = $this->model->findOrFail($id);
+        
+        $this->validate($request, $model->rules());
+        
+        $updated = $model->update($request->all());
+
+        if ($updated) {
+            return redirect('skp/'.$targetKerja->skp->id);
+        }
     }
 
 
@@ -59,35 +116,6 @@ class PenilaianController extends BaseController
             ->removeColumn('periode')
             ->removeColumn('pns')
             ->removeColumn('penilai');
-    }
-
-
-    public function getSaya()
-    {
-        $this->judulIndex = 'SKP Saya';
-        $this->deskripsiIndex = 'SKP Saya';
-        parent::getIndex();
-        view()->share('breadcrumb2', 'SKP Saya');
-        view()->share('breadcrumb2Icon', 'file-o');    
-        view()->share('breadcrumb3', 'Lihat');
-
-        return view('app.skp.single');
-    }
-
-    public function getTambahTugasKerja()
-    {
-        $this->judulTambah = 'Tambah Tugas Kerja';
-        $this->deskripsiTambah = 'Form untuk menambah tugas kerja';
-        $this->breadcrumb3Tambah = 'Tambah Tugas Kerja';
-        view()->share('breadcrumb2', 'SKP Saya');
-        view()->share('breadcrumb2Icon', 'file-o');    
-        return parent::getTambah();
-    }
-
-    public function postTugasKerja(Request $request)
-    {
-        $this->validate($request, $this->targetKerja->rules());
-
     }
 
 }
