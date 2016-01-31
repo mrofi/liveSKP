@@ -7,7 +7,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>{{ $judul or 'Judul' }} | {{ $namaApp or 'LiveSKP' }}</title>
+  <title>{{ $judul or 'Judul' }} | {{ $namaApp or 'SKPNS' }}</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- CSRF -->
@@ -68,7 +68,7 @@ desired effect
     <nav class="navbar navbar-static-top">
       <div class="container">
         <div class="navbar-header">
-          <a href="/" class="navbar-brand">@yield('nama.app.full', '<b>Live</b>SKP')</a>
+          <a href="/" class="navbar-brand">@yield('nama.app.full', '<b>SKP</b>NS')</a>
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
             <i class="fa fa-bars"></i>
           </button>
@@ -79,11 +79,16 @@ desired effect
           <ul class="nav navbar-nav">
             <!-- Optionally, you can add icons to the links -->
             <li class="@if(request()->is('home'))active @endif"><a href="{{ asset('home') }}"><i class="fa fa-lg fa-home"></i></a></li>
-            <li class="@if(request()->is('penilaian'))active @endif"><a href="{{ asset('penilaian') }}"></i> <span>Semua SKP</span></a></li>
+            <li class="@if(request()->is('penilaian*'))active @endif"><a href="{{ asset('penilaian') }}"></i> <span>Penilaian SKP</span></a></li>
             <li class="@if(request()->is('skp*'))active @endif"><a href="{{ asset('skp') }}"><span>SKP Saya</span></a></li>
-            <li class="@if(request()->is('dinas*'))active @endif"><a href="{{ asset('dinas') }}"><span>Dinas</span></a></li>
-            <li class="@if(request()->is('jabatan*'))active @endif"><a href="{{ asset('jabatan') }}"><span>Jabatan</span></a></li>
-            <li class="@if(request()->is('pns*'))active @endif"><a href="{{ asset('pns') }}"><span>PNS</span></a></li>
+            <li class="dropdown @if(request()->is('dinas*') || request()->is('jabatan*') || request()->is('pns*'))active @endif">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">File <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li class="@if(request()->is('dinas*'))active @endif"><a href="{{ asset('dinas') }}"><span>Dinas</span></a></li>
+                <li class="@if(request()->is('jabatan*'))active @endif"><a href="{{ asset('jabatan') }}"><span>Jabatan</span></a></li>
+                <li class="@if(request()->is('pns*'))active @endif"><a href="{{ asset('pns') }}"><span>PNS</span></a></li>
+              </ul>
+            </li>
             <li class="@if(request()->is('setting*'))active @endif"><a href="{{ asset('setting') }}"><span>Setting</span></a></li>
             <!-- <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span class="caret"></span></a>

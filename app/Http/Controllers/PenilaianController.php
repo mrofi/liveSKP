@@ -18,10 +18,10 @@ class PenilaianController extends BaseController
 
     public function __construct(Model $model, $base = 'penilaian')
     {
-        $this->judulIndex = 'Semua SKP';
+        $this->judulIndex = 'Penilaian SKP';
         $this->deskripsiIndex = 'Daftar Semua SKP';
         parent::__construct($model, $base);
-        view()->share('breadcrumb2', 'Semua SKP');
+        view()->share('breadcrumb2', 'Penilaian SKP');
         view()->share('breadcrumb2Icon', 'files-o');    
     }
 
@@ -49,7 +49,7 @@ class PenilaianController extends BaseController
         $result = $datatables
             ->addColumn('menu', function ($data) {
                 return
-                '<a href="/skp/'.$data->id.'" class="btn btn-small btn-link"><i class="fa fa-xs fa-pencil"></i> Edit</a> ';
+                '<a href="/penilaian/skp/'.$data->id.'" class="btn btn-small btn-link"><i class="fa fa-xs fa-pencil"></i> Detail</a> ';
             })
             ->make(true);
 

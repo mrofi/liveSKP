@@ -58,7 +58,8 @@ class SKPController extends BaseController
         $this->judulIndex = 'Penilaian SKP - '.$skp->pns->nip;
         $this->deskripsiIndex = ' ';
         $this->breadcrumb3Index = $skp->pns->nip;
-        view()->share('breadcrumb2', 'Semua SKP');
+        view()->share('breadcrumb2', 'Penilaian SKP');
+        view()->share('breadcrumb2Url', '/penilaian');
         return $this->getIndex();
     }
 
