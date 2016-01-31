@@ -63,108 +63,54 @@ desired effect
 <body class="skin-blue layout-top-nav">
 <div class="wrapper">
 
-  <!-- Main Header -->
-  <header class="main-header">
+  </header>
+   <header class="main-header">
+    <nav class="navbar navbar-static-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a href="/" class="navbar-brand">@yield('nama.app.full', '<b>Live</b>SKP')</a>
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+            <i class="fa fa-bars"></i>
+          </button>
+        </div>
 
-    <!-- Logo -->
-    <a href="index2.html" class="logo">
-      <!-- mini logo for sidebar mini 50x50 pixels -->
-      <span class="logo-mini">@yield('nama.app.mini', '<b>L</b>SKP')</span>
-      <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg">@yield('nama.app.full', '<b>Live</b>SKP')</span>
-    </a>
-
-    <!-- Header Navbar -->
-    <nav class="navbar navbar-static-top" role="navigation">
-      <!-- Sidebar toggle button-->
-      <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-        <span class="sr-only">Toggle navigation</span>
-      </a>
-      <!-- Navbar Right Menu -->
-      <div class="navbar-custom-menu">
-        <ul class="nav navbar-nav">
-          <!-- User Account Menu -->
-          <li class="dropdown user user-menu">
-            <!-- Menu Toggle Button -->
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <!-- The user image in the navbar-->
-              <img src="{{ asset('backend/dist/img/user2-160x160.jpg') }}" class="user-image" alt="User Image">
-              <!-- hidden-xs hides the username on small devices so only the image appears. -->
-              <span class="hidden-xs">Alexander Pierce</span>
-            </a>
-            <ul class="dropdown-menu">
-              <!-- The user image in the menu -->
-              <li class="user-header">
-                <img src="{{ asset('backend/dist/img/user2-160x160.jpg') }}" class="img-circle" alt="User Image">
-
-                <p>
-                  Alexander Pierce - Web Developer
-                  <small>Member since Nov. 2012</small>
-                </p>
-              </li>
-              <!-- Menu Body -->
-              <li class="user-body">
-                <div class="row">
-                  <div class="col-xs-4 text-center">
-                    <a href="#">Followers</a>
-                  </div>
-                  <div class="col-xs-4 text-center">
-                    <a href="#">Sales</a>
-                  </div>
-                  <div class="col-xs-4 text-center">
-                    <a href="#">Friends</a>
-                  </div>
-                </div>
-                <!-- /.row -->
-              </li>
-              <!-- Menu Footer-->
-              <li class="user-footer">
-                <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat">Profile</a>
-                </div>
-                <div class="pull-right">
-                  <a href="#" class="btn btn-default btn-flat">Sign out</a>
-                </div>
-              </li>
-            </ul>
-          </li>
-        </ul>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+          <ul class="nav navbar-nav">
+            <!-- Optionally, you can add icons to the links -->
+            <li class="@if(request()->is('home'))active @endif"><a href="{{ asset('home') }}"><i class="fa fa-lg fa-home"></i></a></li>
+            <li class="@if(request()->is('penilaian'))active @endif"><a href="{{ asset('penilaian') }}"><i class="fa fa-files-o"></i> <span>Semua SKP</span></a></li>
+            <li class="@if(request()->is('skp*'))active @endif"><a href="{{ asset('skp') }}"><i class="fa fa-file-o"></i> <span>SKP Saya</span></a></li>
+            <li class="@if(request()->is('dinas*'))active @endif"><a href="{{ asset('dinas') }}"><i class="fa fa-dropbox"></i> <span>Dinas</span></a></li>
+            <li class="@if(request()->is('jabatan*'))active @endif"><a href="{{ asset('jabatan') }}"><i class="fa fa-tag"></i> <span>Jabatan</span></a></li>
+            <li class="@if(request()->is('pns*'))active @endif"><a href="{{ asset('pns') }}"><i class="fa fa-male"></i> <span>PNS</span></a></li>
+            <li class="@if(request()->is('setting*'))active @endif"><a href="{{ asset('setting') }}"><i class="fa fa-cog"></i> <span>Setting</span></a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="#">Action</a></li>
+                <li><a href="#">Another action</a></li>
+                <li><a href="#">Something else here</a></li>
+                <li class="divider"></li>
+                <li><a href="#">Separated link</a></li>
+                <li class="divider"></li>
+                <li><a href="#">One more separated link</a></li>
+              </ul>
+            </li>
+          </ul>
+          <form class="navbar-form navbar-left" role="search">
+            <div class="form-group">
+              <input type="text" class="form-control" id="navbar-search-input" placeholder="Search">
+            </div>
+          </form>
+        </div>
+        <!-- /.navbar-collapse -->
+        
+        <!-- /.navbar-custom-menu -->
       </div>
+      <!-- /.container-fluid -->
     </nav>
   </header>
-  <!-- Left side column. contains the logo and sidebar -->
-  <aside class="main-sidebar">
-
-    <!-- sidebar: style can be found in sidebar.less -->
-    <section class="sidebar">
-      <!-- search form (Optional) -->
-      <form action="#" method="get" class="sidebar-form">
-        <div class="input-group">
-          <input type="text" name="q" class="form-control" placeholder="Search...">
-              <span class="input-group-btn">
-                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
-                </button>
-              </span>
-        </div>
-      </form>
-      <!-- /.search form -->
-
-      <!-- Sidebar Menu -->
-      <ul class="sidebar-menu">
-        <!-- Optionally, you can add icons to the links -->
-        <li class="@if(request()->is('home'))active @endif"><a href="{{ asset('home') }}"><i class="fa fa-home"></i> <span>Home</span></a></li>
-        <li class="@if(request()->is('penilaian'))active @endif"><a href="{{ asset('penilaian') }}"><i class="fa fa-files-o"></i> <span>Semua SKP</span></a></li>
-        <li class="@if(request()->is('skp*'))active @endif"><a href="{{ asset('skp') }}"><i class="fa fa-file-o"></i> <span>SKP Saya</span></a></li>
-        <li class="@if(request()->is('dinas*'))active @endif"><a href="{{ asset('dinas') }}"><i class="fa fa-dropbox"></i> <span>Dinas</span></a></li>
-        <li class="@if(request()->is('jabatan*'))active @endif"><a href="{{ asset('jabatan') }}"><i class="fa fa-tag"></i> <span>Jabatan</span></a></li>
-        <li class="@if(request()->is('pns*'))active @endif"><a href="{{ asset('pns') }}"><i class="fa fa-male"></i> <span>PNS</span></a></li>
-        <li class="@if(request()->is('setting*'))active @endif"><a href="{{ asset('setting') }}"><i class="fa fa-cog"></i> <span>Setting</span></a></li>
-        <li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
-      </ul>
-      <!-- /.sidebar-menu -->
-    </section>
-    <!-- /.sidebar -->
-  </aside>
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
