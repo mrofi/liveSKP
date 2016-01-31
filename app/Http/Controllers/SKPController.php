@@ -23,6 +23,9 @@ class SKPController extends BaseController
     {
         parent::__construct($model, $base);
         $this->pns = PNS::with(['atasan', 'jabatan', 'dinas', 'skps'])->first();
+        if ($this->pns == null) {
+            return back();
+        }
         $this->skp = $this->pns->skps->last();
         $this->judulIndex = 'SKP Saya';
         $this->deskripsiIndex = 'SKP Saya';
