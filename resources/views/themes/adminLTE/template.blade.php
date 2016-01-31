@@ -27,11 +27,26 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="{{ asset('backend/plugins/datatables/dataTables.bootstrap.css') }}">
   <!-- Theme style -->
   <link rel="stylesheet" href="{{ asset('backend/dist/css/AdminLTE.min.css') }}">
+  <!-- I Check -->
+  <link rel="stylesheet" href="{{ asset('backend/plugins/iCheck/square/blue.css') }}">
   <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
         page. However, you can choose any other skin. Make sure you
         apply the skin class to the body tag so the changes take effect.
   -->
   <link rel="stylesheet" href="{{ asset('backend/dist/css/skins/skin-blue.min.css') }}">
+
+  <style type="text/css">
+    .user-label {
+        width: 30px;
+        height: 30px;
+        text-align: center;
+        background-color: rgba(85, 85, 85, 0.25);
+        border-radius: 50%;
+        margin-top: -5px;
+        margin-bottom: -5px;
+        padding: 5px;
+    }
+  </style>
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -60,6 +75,8 @@ desired effect
 |               | sidebar-mini                            |
 |---------------------------------------------------------|
 -->
+@if(auth()->user())
+@section('templateBody')
 <body class="skin-blue fixed layout-top-nav">
 <div class="wrapper">
 
@@ -79,14 +96,17 @@ desired effect
           <ul class="nav navbar-nav">
             <!-- Optionally, you can add icons to the links -->
             <li class="@if(request()->is('home'))active @endif"><a href="{{ asset('home') }}"><i class="fa fa-lg fa-home"></i></a></li>
+            @if(count(auth()->user()->pns->bawahan))
             <li class="@if(request()->is('penilaian*'))active @endif"><a href="{{ asset('penilaian') }}"></i> <span>Penilaian SKP</span></a></li>
+            @endif
             <li class="@if(request()->is('skp*'))active @endif"><a href="{{ asset('skp') }}"><span>SKP Saya</span></a></li>
-            <li class="dropdown @if(request()->is('dinas*') || request()->is('jabatan*') || request()->is('pns*'))active @endif">
+            <li class="dropdown @if(request()->is('dinas*') || request()->is('jabatan*') || request()->is('pns*') || request()->is('profile*'))active @endif">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">File <span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
                 <li class="@if(request()->is('dinas*'))active @endif"><a href="{{ asset('dinas') }}"><span>Dinas</span></a></li>
                 <li class="@if(request()->is('jabatan*'))active @endif"><a href="{{ asset('jabatan') }}"><span>Jabatan</span></a></li>
                 <li class="@if(request()->is('pns*'))active @endif"><a href="{{ asset('pns') }}"><span>PNS</span></a></li>
+                <li class="@if(request()->is('profile*'))active @endif"><a href="{{ asset('profile') }}"><span>Profile</span></a></li>
               </ul>
             </li>
             <li class="@if(request()->is('setting*'))active @endif"><a href="{{ asset('setting') }}"><span>Setting</span></a></li>
@@ -103,7 +123,7 @@ desired effect
               </ul>
             </li> -->
           </ul>
-          <form class="navbar-form navbar-left" role="search">
+          <form class="navbar-form navbar-left hidden-xs" role="search">
             <div class="form-group">
               <input type="text" class="form-control" id="navbar-search-input" placeholder="Search">
             </div>
@@ -117,9 +137,12 @@ desired effect
               <!-- Menu Toggle Button -->
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 <!-- The user image in the navbar-->
-                <img src="/backend/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+                <div class="user-label">
+                  <span></span>{{ auth()->user()->getInitial() }}</span>
+                </div>
+                <!-- <img src="/backend/dist/img/user2-160x160.jpg" class="user-image" alt="User Image"> -->
+
                 <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                <span class="hidden-xs">Chandra</span>
               </a>
               <ul class="dropdown-menu">
                 <!-- The user image in the menu -->
@@ -127,7 +150,10 @@ desired effect
                   <img src="/backend/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
 
                   <p>
-                    Chandra - IT Manager
+                    {{ auth()->user()->name }} - {{ auth()->user()->pns->jabatan->jabatan }}
+                  </p>
+                  <p>
+                    {{ auth()->user()->pns->dinas->dinas }}
                   </p>
                 </li>
                 <!-- Menu Body -->
@@ -151,11 +177,12 @@ desired effect
                     <a href="#" class="btn btn-default btn-flat">Profile</a>
                     </div>
                   <div class="pull-right">
-                    <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                    <a href="/logout" class="btn btn-default btn-flat">Logout</a>
                   </div>
                 </li>
               </ul>
             </li>
+            <li><a href="/logout"><i class="fa fa-lock"></i> <span class="hidden-sm">Logout</span></a></li>
           </ul>
         </div>
         <!-- /.navbar-collapse -->
@@ -216,6 +243,8 @@ desired effect
 <script src="{{ asset('backend/plugins/jQuery/jQuery-2.1.4.min.js') }}"></script>
 <!-- Bootstrap 3.3.5 -->
 <script src="{{ asset('backend/bootstrap/js/bootstrap.min.js') }}"></script>
+<!-- slim scroll -->
+<script src="{{ asset('backend/plugins/slimScroll/jquery.slimscroll.min.js') }}"></script>
 <!-- date js -->
 <script src="{{ asset('backend/plugins/datejs/date.js') }}"></script>
 <!-- date-range-picker -->
@@ -322,14 +351,13 @@ desired effect
           scrollTop: 0
         }, 500);
       });
-
   @if(isset($base))
     $('.datatables').DataTable({
         processing: true,
         serverSide: true,
         ajax: '{{ $dataUrl or url($base.'/data') }}',
         columns: [
-          @foreach($fields as $field) { name: '{{ $field }}', data: '{{ $field }}', sortable: {{ in_array($field, $unsortables) ? 'false' : 'true'}}}, @endforeach
+          @foreach(array_keys($fields) as $field) { name: '{{ $field }}', data: '{{ $field }}', sortable: {{ in_array($field, $unsortables) ? 'false' : 'true'}}}, @endforeach
           { name: 'menu', data: 'menu', sortable: false },
         ],
     });
@@ -346,4 +374,7 @@ desired effect
      user experience. Slimscroll is required when using the
      fixed layout. -->
 </body>
+@stop
+@endif
+@yield('templateBody')
 </html>

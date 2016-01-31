@@ -32,14 +32,12 @@ class BaseController extends Controller
         $this->model = $model;
         $this->base = $base;
         $this->baseClass = (new \ReflectionClass($this))->getShortName();
-        $fields = $this->model->getFillable();
-        $primaryKey = $this->model->getKeyName();
-        $this->fields = ( in_array($primaryKey, $fields) ? [] : [null => $primaryKey] ) + $this->model->getFillable();
+        $fields = $this->model->getFields();
 
         view()->share('unsortables', $this->unsortables);
         view()->share('model', $this->model);
         view()->share('baseClass', $this->baseClass);
-        view()->share('fields', $this->fields);
+        view()->share('fields', $this->fields ? $this->fields : $this->model->getFields());
         view()->share('base', $this->base);
         view()->share('breadcrumbLevel', 3);
         view()->share('breadcrumb1', 'App');

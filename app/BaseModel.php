@@ -6,17 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class BaseModel extends Model
 {
+    use BaseModelTrait;
+
     protected $dependencies = [];
 
     protected $rules = [];
-	
-	public function dependencies()
-    {
-        return $this->dependencies;
-    }
 
-    public function rules()
-    {
-        return $this->rules;
-    }
+    protected $aliases = [];
+
+    protected $addition = [];
+
+    protected $deletion = [];
 }

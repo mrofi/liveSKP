@@ -40,26 +40,12 @@ class PNSController extends BaseController
     	view()->share('jenis_kelamins', $jenis_kelamins);
 	}
 
-	public function getIndex()
-	{
-		parent::getIndex();
-    	$newFields = ['jabatan_id' => 'jabatan', 'dinas_id' => 'dinas'];
-        $delFields = ['pengguna_id', 'atasan_nip'];
-    	$fields = $this->model->getFillable();
-        foreach ($fields as $key => $value) {
-            if ($value == array_key_exists($value, $newFields)) $fields[$key] = $newFields[$value];
-            $fields[$key] = ucwords(implode(' ', explode('_', $fields[$key])));
-            if (in_array($value, $delFields)) unset($fields[$key]);
-        }
-    	view()->share('datatablesFields', $fields);
-	
-
-    	return view('partials.appIndex');
-	}
-
 	protected function processDatatables($datatables)
     {
         return $datatables
+            ->editColumn('tmt', function($data) {
+                return $data->tmt->format('d-F-Y');
+            })
 	    	->editColumn('jabatan_id', function($data) {
 	    		if ($data->jabatan !== null) return $data->jabatan->jabatan;
 	    		return '-';
@@ -68,6 +54,10 @@ class PNSController extends BaseController
 	    		if ($data->dinas !== null) return $data->dinas->dinas;
 	    		return '-';
 	    	})
+            ->editColumn('jenis_kelamin', function($data) {
+                $jenisKelamins = $this->model->getJenisKelamin();
+                return $jenisKelamins[$data->jenis_kelamin];;
+            })
 	    	->removeColumn('jabatan')
 	    	->removeColumn('dinas');
     }

@@ -21,8 +21,31 @@ class PNS extends BaseModel
     	'tmt' => 'required|date',
     ];
 
+    protected $aliases = [
+        'tmt' => 'TMT',
+        'jabatan_id' => 'Jabatan',
+        'dinas_id' => 'Dinas',
+    ];
+
     const LAKILAKI = 'L';
     const PEREMPUAN = 'P';
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::saving(function($model)
+        {
+            $user = User::firstOrCreate(['id' => $model->attributes['pengguna_id']]);
+            $user->update([
+                'name' => $model->attributes['nama'],
+                'email' => $model->attributes['email'],
+                'password' => $user->password ? $user->password : bcrypt('abdinegara'),
+            ]);
+
+            $model->attributes['pengguna_id'] = $user->id;
+        });
+    }
 
     public function getFillable()
     {
@@ -61,14 +84,14 @@ class PNS extends BaseModel
         return $this->hasMany(SKP::class, 'pns_nip');
     }
 
-    public function getTmtAttribute($value)
-    {
-    	return (new Carbon($value))->format('d-F-Y');
-    }
-
     public function getNipAttribute($value)
     {
         return "$value";
+    }
+
+    public function bawahan()
+    {
+        return $this->hasMany(PNS::class, 'atasan_nip', 'nip')->with('skps');
     }
 
 }

@@ -29,8 +29,8 @@ class PenilaianController extends BaseController
     {
         parent::getIndex();
         view()->share('breadcrumb3', 'Lihat Semua');
-        $fields = $this->model->getFillable();
-        $fields = array_flip(array_except(array_flip($fields), ['periode_id', 'penilai_nip']));
+        $fields = $this->model->getFields();
+        $fields = array_except($fields, ['periode_id', 'penilai_nip']);
         // $fields = array_merge($fields, ['nilai', 'tanggal_penilaian']);
         view()->share('fields', $fields);
         return view('app.penilaian.index');
@@ -38,7 +38,17 @@ class PenilaianController extends BaseController
 
     public function data()
     {
-        $datas = $this->model->select([null => $this->model->getKeyName()]+$this->model->getFillable());
+        $bawahan = auth()->user()->pns->bawahan;
+
+        $ids = [];
+
+        foreach ($bawahan as $pns) {
+            foreach ($pns->skps()->lists('id') as $id) {
+                $ids[] = $id;
+            }
+        }
+
+        $datas = $this->model->select([null => $this->model->getKeyName()]+$this->model->getFillable())->whereIn('id', $ids);
 
         if ($dependencies = $this->model->dependencies()) {
             $datas = $datas->with($dependencies);
@@ -71,7 +81,7 @@ class PenilaianController extends BaseController
         view()->share('breadcrumb3', 'Beri Nilai');
         view()->share('action', 'postEdit');
         view()->share('params', compact('id'));
-        view()->share('formCancelUrl', '/skp/'.$model->skp->id);
+        view()->share('formCancelUrl', '/penilaian/skp/'.$model->skp->id);
 
 
         return view("app.{$this->base}.form", compact($this->base, 'pns'));

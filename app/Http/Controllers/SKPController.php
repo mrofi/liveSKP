@@ -17,25 +17,27 @@ class SKPController extends BaseController
     protected $targetKerja;
     protected $skp;
     protected $pns;
+    protected $dataUrl;
     protected $unsortables = ['nomor', 'penilaian_kuantitas', 'penilaian_kualitas', 'penilaian_waktu', 'penilaian_biaya'];
 
+    protected $judulIndex = 'SKP Saya';
+    protected $deskripsiIndex = 'SKP Saya';
+    protected $breadcrumb3Index = 'Lihat';
+    protected $judulTambah = 'Tambah Target Kerja';
+    protected $deskripsiTambah = 'Form untuk Tambah Target Kerja';
+    protected $breadcrumb3Tambah = 'Tambah Target Kerja';
+    protected $judulEdit = 'Edit Target Kerja';
+    protected $deskripsiEdit = 'Form untuk Edit Target Kerja';
+    protected $breadcrumb3Edit = 'Edit Target Kerja';
+    
     public function __construct(Model $model, $base = 'skp')
     {
         parent::__construct($model, $base);
-        $this->pns = PNS::with(['atasan', 'jabatan', 'dinas', 'skps'])->first();
+        $this->pns = auth()->user()->pns;
         if ($this->pns == null) {
             return back();
         }
         $this->skp = $this->pns->skps->last();
-        $this->judulIndex = 'SKP Saya';
-        $this->deskripsiIndex = 'SKP Saya';
-        $this->breadcrumb3Index = 'Lihat';
-        $this->judulTambah = 'Tambah Target Kerja';
-        $this->deskripsiTambah = 'Form untuk Tambah Target Kerja';
-        $this->breadcrumb3Tambah = 'Tambah Target Kerja';
-        $this->judulEdit = 'Edit Target Kerja';
-        $this->deskripsiEdit = 'Form untuk Edit Target Kerja';
-        $this->breadcrumb3Edit = 'Edit Target Kerja';
         view()->share('breadcrumb2', 'SKP Saya');
         view()->share('breadcrumb2Icon', 'file-o');  
     }
@@ -46,26 +48,28 @@ class SKPController extends BaseController
             return back();
         }
         parent::getIndex();
-        $fields = $this->model->getFillable();
-        $fields = array_flip(array_except(array_flip($fields), ['id', 'satuan_kuantitas', 'satuan_kualitas', 'satuan_waktu', 'satuan_biaya']));
-        $fields = array_merge(['nomor'] + $fields, ['penilaian_kuantitas', 'penilaian_kualitas', 'penilaian_waktu', 'penilaian_biaya']);
+        $fields = $this->model->getFields();
+        $fields = array_except($fields, ['id', 'skp_id', 'satuan_kuantitas', 'satuan_kualitas', 'satuan_waktu', 'satuan_biaya']);
+        $fields = ['nomor' => 'Nomor'] + $fields + ['penilaian_kuantitas' => 'Penilaian Kuantitas', 'penilaian_kualitas' => 'Penilaian Kualitas', 'penilaian_waktu' => 'Penilaian Waktu', 'penilaian_biaya' => 'Penilaian Biaya '];
         view()->share('fields', $fields);
         $pns = $this->pns;
         $penilai = $pns->atasan;
-        $dataUrl = action('SKPController@anyData', ['id' => $this->skp->id]);
+        $dataUrl = $this->dataUrl ? $this->dataUrl : action('SKPController@anyData', ['id' => $this->skp ? $this->skp->id : 0]);
         return view('app.skp.index', compact('pns', 'penilai', 'dataUrl'));
     }
 
     public function getShow($skp_id)
     {
         $skp = SKP::findOrFail($skp_id);
+        if (!$skp->pns->atasan || $skp->pns->atasan->nip != auth()->user()->pns->nip) return abort('404');
         $this->pns = $skp->pns;
-        view()->share('dataUrl', action('SKPController@anyData', ['id' => $skp_id]));
+        $this->dataUrl = action('SKPController@anyData', ['id' => $skp_id]);
         $this->judulIndex = 'Penilaian SKP - '.$skp->pns->nip;
         $this->deskripsiIndex = ' ';
         $this->breadcrumb3Index = $skp->pns->nip;
         view()->share('breadcrumb2', 'Penilaian SKP');
         view()->share('breadcrumb2Url', '/penilaian');
+        view()->share('noAddButton', true);
         return $this->getIndex();
     }
 
@@ -94,6 +98,7 @@ class SKPController extends BaseController
 
     protected function processDatatables($datatables)
     {
+        $nip = auth()->user()->pns->nip;
         return $datatables
             ->editColumn('kuantitas', function($data) {
                 return $data->kuantitas.' '.$data->satuan_kuantitas;
@@ -138,11 +143,14 @@ class SKPController extends BaseController
             ->addColumn('nomor', function($data) {
                 return AutoNumbering::getNumber();
             })
-            ->editColumn('menu', function ($data) {
-                return
-                '<a href="'.action($this->baseClass.'@getEdit', [$data->{$this->model->getKeyName()}]).'" class="btn btn-small btn-link"><i class="fa fa-xs fa-pencil"></i> Edit</a> '.
-                Form::open(['style' => 'display: inline!important', 'method' => 'delete', 'action' => [$this->baseClass.'@deleteHapus', $data->{$this->model->getKeyName()}]]).'  <button type="submit" onClick="return confirm(\'Yakin mau menghapus?\');" class="btn btn-small btn-link"><i class="fa fa-xs fa-trash-o"></i> Delete</button></form>'.
-                '<a href="/penilaian/'.$data->id.'   " class="btn btn-small btn-link"><i class="fa fa-xs fa-check"></i> Beri Nilai</a>';
+            ->editColumn('menu', function ($data) use ($nip) {
+                if ($data->skp->pns->nip == $nip) {
+                    return
+                    '<a href="'.action($this->baseClass.'@getEdit', [$data->{$this->model->getKeyName()}]).'" class="btn btn-small btn-link"><i class="fa fa-xs fa-pencil"></i> Edit</a> '.
+                    Form::open(['style' => 'display: inline!important', 'method' => 'delete', 'action' => [$this->baseClass.'@deleteHapus', $data->{$this->model->getKeyName()}]]).'  <button type="submit" onClick="return confirm(\'Yakin mau menghapus?\');" class="btn btn-small btn-link"><i class="fa fa-xs fa-trash-o"></i> Delete</button></form>';
+                }
+                
+                return '<a href="/penilaian/'.$data->id.'   " class="btn btn-small btn-link"><i class="fa fa-xs fa-check"></i> Beri Nilai</a>';
             });
     }
 
