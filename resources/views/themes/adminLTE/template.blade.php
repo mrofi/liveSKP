@@ -60,7 +60,7 @@ desired effect
 |               | sidebar-mini                            |
 |---------------------------------------------------------|
 -->
-<body class="skin-blue layout-top-nav">
+<body class="skin-blue fixed layout-top-nav">
 <div class="wrapper">
 
   </header>
@@ -104,6 +104,55 @@ desired effect
             </div>
           </form>
         </div>
+        <!-- Navbar Right Menu -->
+        <div class="navbar-custom-menu">
+          <ul class="nav navbar-nav">
+            <!-- User Account Menu -->
+            <li class="dropdown user user-menu">
+              <!-- Menu Toggle Button -->
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <!-- The user image in the navbar-->
+                <img src="/backend/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+                <!-- hidden-xs hides the username on small devices so only the image appears. -->
+                <span class="hidden-xs">Chandra</span>
+              </a>
+              <ul class="dropdown-menu">
+                <!-- The user image in the menu -->
+                <li class="user-header">
+                  <img src="/backend/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+
+                  <p>
+                    Chandra - IT Manager
+                  </p>
+                </li>
+                <!-- Menu Body -->
+                <!-- <li class="user-body">
+                  <div class="row">
+                    <div class="col-xs-4 text-center">
+                      <a href="#">Followers</a>
+                    </div>
+                    <div class="col-xs-4 text-center">
+                      <a href="#">Sales</a>
+                    </div>
+                    <div class="col-xs-4 text-center">
+                      <a href="#">Friends</a>
+                    </div>
+                  </div>
+                </li>
+                 -->
+                <!-- Menu Footer-->
+                <li class="user-footer">
+                  <div class="pull-left">
+                    <a href="#" class="btn btn-default btn-flat">Profile</a>
+                    </div>
+                  <div class="pull-right">
+                    <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                  </div>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
         <!-- /.navbar-collapse -->
         
         <!-- /.navbar-custom-menu -->
@@ -114,28 +163,28 @@ desired effect
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <h1>
-        {{ $judul or 'Page Header' }}
-        <small>{{ $deskripsi or 'Optional description' }}</small>
-      </h1>
-      <ol class="breadcrumb">
-      @if(isset($breadcrumbLevel))
-        <li><a href="{{ $breadcrumb1Url or '/' }}"><i class="fa fa-{{ $breadcrumb1Icon or 'dashboard' }}"></i> {{ $breadcrumb1 or 'Menu' }}</a></li>
-        @if($breadcrumbLevel >= 2)<li class="{{ $breadcrumb2Class or 'active' }}"><a href="{{ $breadcrumb2Url or 'javascript:;' }}" ><i class="fa fa-{{ $breadcrumb2Icon or '' }}"></i> {{ $breadcrumb2 or 'Here' }}</a></li>@endif
-        @if($breadcrumbLevel >= 3)<li class="{{ $breadcrumb3Class or 'active' }}"><a href="{{ $breadcrumb3Url or 'javascript:;' }}" ><i class="fa fa-{{ $breadcrumb3Icon or '' }}"></i> {{ $breadcrumb3 or 'Here' }}</a></li>@endif
-      @endif
-      </ol>
-    </section>
+      <!-- Content Header (Page header) -->
+      <section class="content-header">
+        <h1>
+          {{ $judul or 'Page Header' }}
+          <small>{{ $deskripsi or 'Optional description' }}</small>
+        </h1>
+        <ol class="breadcrumb">
+        @if(isset($breadcrumbLevel))
+          <li><a href="{{ $breadcrumb1Url or '/' }}"><i class="fa fa-{{ $breadcrumb1Icon or 'dashboard' }}"></i> {{ $breadcrumb1 or 'Menu' }}</a></li>
+          @if($breadcrumbLevel >= 2)<li class="{{ $breadcrumb2Class or 'active' }}"><a href="{{ $breadcrumb2Url or 'javascript:;' }}" ><i class="fa fa-{{ $breadcrumb2Icon or '' }}"></i> {{ $breadcrumb2 or 'Here' }}</a></li>@endif
+          @if($breadcrumbLevel >= 3)<li class="{{ $breadcrumb3Class or 'active' }}"><a href="{{ $breadcrumb3Url or 'javascript:;' }}" ><i class="fa fa-{{ $breadcrumb3Icon or '' }}"></i> {{ $breadcrumb3 or 'Here' }}</a></li>@endif
+        @endif
+        </ol>
+      </section>
 
-    <!-- Main content -->
-    <section class="content">
+      <!-- Main content -->
+      <section class="content">
 
-      @yield('content')
+        @yield('content')
 
-    </section>
-    <!-- /.content -->
+      </section>
+      <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
 
