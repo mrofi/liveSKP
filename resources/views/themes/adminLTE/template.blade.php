@@ -7,7 +7,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>{{ $judul or 'Judul' }} | {{ $namaApp or 'SKPNS' }}</title>
+  <title>{{ $judul or 'Judul' }} | {{ $namaApp or 'SKPNS - Penilaian Sasaran Kerja Pegawai Negeri Sipil' }}</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- CSRF -->

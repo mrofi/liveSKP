@@ -76,10 +76,11 @@ class PNSController extends BaseController
     {
     	if (strlen($nip = $request->get('nip', '')) < 18) $request->merge(['nip' => $nip. str_repeat('_', 18 - strlen($nip))]);
     	
+        $atasan = $request->get('atasan', null);
         $newRequests = [
             'jabatan_id' => $request->get('jabatan'),
             'dinas_id' => $request->get('dinas'),
-            'atasan_nip' => $request->get('atasan'),
+            'atasan_nip' => empty($atasan) ? null : $atasan,
             'originalTmt' => $request->get('tmt'),
             'tmt' => (new Carbon($request->get('tmt')))->format('d-F-Y'),
         ];
