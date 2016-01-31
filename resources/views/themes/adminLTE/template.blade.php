@@ -79,13 +79,13 @@ desired effect
           <ul class="nav navbar-nav">
             <!-- Optionally, you can add icons to the links -->
             <li class="@if(request()->is('home'))active @endif"><a href="{{ asset('home') }}"><i class="fa fa-lg fa-home"></i></a></li>
-            <li class="@if(request()->is('penilaian'))active @endif"><a href="{{ asset('penilaian') }}"><i class="fa fa-files-o"></i> <span>Semua SKP</span></a></li>
-            <li class="@if(request()->is('skp*'))active @endif"><a href="{{ asset('skp') }}"><i class="fa fa-file-o"></i> <span>SKP Saya</span></a></li>
-            <li class="@if(request()->is('dinas*'))active @endif"><a href="{{ asset('dinas') }}"><i class="fa fa-dropbox"></i> <span>Dinas</span></a></li>
-            <li class="@if(request()->is('jabatan*'))active @endif"><a href="{{ asset('jabatan') }}"><i class="fa fa-tag"></i> <span>Jabatan</span></a></li>
-            <li class="@if(request()->is('pns*'))active @endif"><a href="{{ asset('pns') }}"><i class="fa fa-male"></i> <span>PNS</span></a></li>
-            <li class="@if(request()->is('setting*'))active @endif"><a href="{{ asset('setting') }}"><i class="fa fa-cog"></i> <span>Setting</span></a></li>
-            <li class="dropdown">
+            <li class="@if(request()->is('penilaian'))active @endif"><a href="{{ asset('penilaian') }}"></i> <span>Semua SKP</span></a></li>
+            <li class="@if(request()->is('skp*'))active @endif"><a href="{{ asset('skp') }}"><span>SKP Saya</span></a></li>
+            <li class="@if(request()->is('dinas*'))active @endif"><a href="{{ asset('dinas') }}"><span>Dinas</span></a></li>
+            <li class="@if(request()->is('jabatan*'))active @endif"><a href="{{ asset('jabatan') }}"><span>Jabatan</span></a></li>
+            <li class="@if(request()->is('pns*'))active @endif"><a href="{{ asset('pns') }}"><span>PNS</span></a></li>
+            <li class="@if(request()->is('setting*'))active @endif"><a href="{{ asset('setting') }}"><span>Setting</span></a></li>
+            <!-- <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
                 <li><a href="#">Action</a></li>
@@ -96,7 +96,7 @@ desired effect
                 <li class="divider"></li>
                 <li><a href="#">One more separated link</a></li>
               </ul>
-            </li>
+            </li> -->
           </ul>
           <form class="navbar-form navbar-left" role="search">
             <div class="form-group">
