@@ -38,6 +38,6 @@ class UserReset extends Command
      */
     public function handle()
     {
-        User::whereNotNull('id')->update(['password' => bcrypt($this->option('password'))]);
+        User::where('is_admin', false)->update(['password' => bcrypt($this->option('password'))]);
     }
 }

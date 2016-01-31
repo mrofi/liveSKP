@@ -15,6 +15,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         Commands\Inspire::class,
         Commands\UserReset::class,
+        Commands\CreateAdmin::class,
     ];
 
     /**

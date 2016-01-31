@@ -96,20 +96,20 @@ desired effect
           <ul class="nav navbar-nav">
             <!-- Optionally, you can add icons to the links -->
             <li class="@if(request()->is('home'))active @endif"><a href="{{ asset('home') }}"><i class="fa fa-lg fa-home"></i></a></li>
+          @if(!auth()->user()->is_admin)
             @if(count(auth()->user()->pns->bawahan))
             <li class="@if(request()->is('penilaian*'))active @endif"><a href="{{ asset('penilaian') }}"></i> <span>Penilaian SKP</span></a></li>
             @endif
             <li class="@if(request()->is('skp*'))active @endif"><a href="{{ asset('skp') }}"><span>SKP Saya</span></a></li>
-            <li class="dropdown @if(request()->is('dinas*') || request()->is('jabatan*') || request()->is('pns*') || request()->is('profile*'))active @endif">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">File <span class="caret"></span></a>
-              <ul class="dropdown-menu" role="menu">
-                <li class="@if(request()->is('dinas*'))active @endif"><a href="{{ asset('dinas') }}"><span>Dinas</span></a></li>
-                <li class="@if(request()->is('jabatan*'))active @endif"><a href="{{ asset('jabatan') }}"><span>Jabatan</span></a></li>
-                <li class="@if(request()->is('pns*'))active @endif"><a href="{{ asset('pns') }}"><span>PNS</span></a></li>
-                <li class="@if(request()->is('profile*'))active @endif"><a href="{{ asset('profile') }}"><span>Profile</span></a></li>
-              </ul>
-            </li>
+            <li class="@if(request()->is('profile*'))active @endif"><a href="{{ asset('profile') }}"><span>Profile</span></a></li>
+          @else
+            <li class="@if(request()->is('dinas*'))active @endif"><a href="{{ asset('dinas') }}"><span>Dinas</span></a></li>
+            <li class="@if(request()->is('jabatan*'))active @endif"><a href="{{ asset('jabatan') }}"><span>Jabatan</span></a></li>
+            <li class="@if(request()->is('pns*'))active @endif"><a href="{{ asset('pns') }}"><span>PNS</span></a></li>
+            <li class="@if(request()->is('profile*'))active @endif"><a href="{{ asset('profile') }}"><span>Profile</span></a></li>
+
             <li class="@if(request()->is('setting*'))active @endif"><a href="{{ asset('setting') }}"><span>Setting</span></a></li>
+          @endif
             <!-- <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
@@ -150,11 +150,13 @@ desired effect
                   <img src="/backend/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
 
                   <p>
-                    {{ auth()->user()->name }} - {{ auth()->user()->pns->jabatan->jabatan }}
+                    {{ auth()->user()->name }} @if(auth()->user()->pns) - {{ auth()->user()->pns->jabatan->jabatan }} @endif
                   </p>
+                  @if(auth()->user()->pns)
                   <p>
                     {{ auth()->user()->pns->dinas->dinas }}
                   </p>
+                  @endif
                 </li>
                 <!-- Menu Body -->
                 <!-- <li class="user-body">

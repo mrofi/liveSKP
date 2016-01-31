@@ -13,7 +13,7 @@ class User extends Authenticatable implements BaseModelInterface
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'deskripsi', 'foto_url',
+        'name', 'email', 'password', 'deskripsi', 'foto_url', 'is_admin'
     ];
 
     /**
