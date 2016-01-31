@@ -74,7 +74,7 @@ class PNSController extends BaseController
 
     protected function processRequest($request)
     {
-    	if (strlen($nip = $request->get('nip', '')) < 21) $request->merge(['nip' => $nip. str_repeat('_', 21 - strlen($nip))]);
+    	if (strlen($nip = $request->get('nip', '')) < 18) $request->merge(['nip' => $nip. str_repeat('_', 18 - strlen($nip))]);
     	
         $newRequests = [
             'jabatan_id' => $request->get('jabatan'),

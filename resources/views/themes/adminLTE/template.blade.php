@@ -60,7 +60,7 @@ desired effect
 |               | sidebar-mini                            |
 |---------------------------------------------------------|
 -->
-<body class="hold-transition skin-blue sidebar-mini  sidebar-collapse">
+<body class="skin-blue layout-top-nav">
 <div class="wrapper">
 
   <!-- Main Header -->
