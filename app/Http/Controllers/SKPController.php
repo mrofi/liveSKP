@@ -42,6 +42,9 @@ class SKPController extends BaseController
 
     public function getIndex()
     {
+        if ($this->pns == null) {
+            return back();
+        }
         parent::getIndex();
         $fields = $this->model->getFillable();
         $fields = array_flip(array_except(array_flip($fields), ['id', 'satuan_kuantitas', 'satuan_kualitas', 'satuan_waktu', 'satuan_biaya']));
