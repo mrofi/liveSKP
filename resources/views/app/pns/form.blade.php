@@ -62,7 +62,7 @@
 			{!! Form::label('tmt', 'TMT', ['class' => 'control-label']) !!}
 		</div>
 		<div class="col-md-9">
-			{!! Form::text('tmt', $pns->tmt->format('d-F-Y'), ['class' => 'form-control datepicker', 'onkeydown' => 'return false']) !!}
+			{!! Form::text('tmt', $pns->tmt ? $pns->tmt->format('d-F-Y') : null, ['class' => 'form-control datepicker', 'onkeydown' => 'return false']) !!}
 		</div>
 	</div>
 	
