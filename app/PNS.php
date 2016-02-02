@@ -36,7 +36,7 @@ class PNS extends BaseModel
 
         static::saving(function($model)
         {
-            $user = User::where('id', $model->attributes['pengguna_id'])->firstOrCreate();
+            $user = $model->user ?: User::create();
             $user->update([
                 'name' => $model->attributes['nama'],
                 'email' => $model->attributes['email'],
