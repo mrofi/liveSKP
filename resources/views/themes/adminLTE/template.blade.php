@@ -138,7 +138,7 @@ desired effect
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 <!-- The user image in the navbar-->
                 <div class="user-label">
-                  <span></span>{{ auth()->user()->getInitial() }}</span>
+                  <span>{{ auth()->user()->getInitial() }}</span>
                 </div>
                 <!-- <img src="/backend/dist/img/user2-160x160.jpg" class="user-image" alt="User Image"> -->
 

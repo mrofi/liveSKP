@@ -13,8 +13,4 @@ class BaseModel extends Model
     protected $rules = [];
 
     protected $aliases = [];
-
-    protected $addition = [];
-
-    protected $deletion = [];
 }
