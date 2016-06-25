@@ -147,7 +147,11 @@ desired effect
               <ul class="dropdown-menu">
                 <!-- The user image in the menu -->
                 <li class="user-header">
-                  <img src="/backend/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                  @if (auth()->user()->foto)
+                  <img src="{{auth()->user()->foto}}" class="img-circle" alt="User Image">
+                  @else
+                  <i class="text-gray ion ion-person fa-5x"></i>
+                  @endif
 
                   <p>
                     {{ auth()->user()->name }} @if(auth()->user()->pns) - {{ auth()->user()->pns->jabatan->jabatan }} @endif
