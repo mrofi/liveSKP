@@ -199,7 +199,7 @@ desired effect
   <div class="content-wrapper">
       <!-- Content Header (Page header) -->
       <section class="content-header">
-        <h1>
+        <h1 @if (isset($titleCenter) && $titleCenter == true) class="text-center" @endif>
           {{ $judul or 'Page Header' }}
           <small>{{ $deskripsi or 'Optional description' }}</small>
         </h1>
