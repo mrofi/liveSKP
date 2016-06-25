@@ -2,7 +2,7 @@
 
 <?php
 $titleCenter = true;
-$judul = 'Sistem Penilaian Kinerja PNS - Kota Pekalongan';
+$judul = 'Penilaian Sasaran Kerja PNS - Kota Pekalongan';
 $deskripsi = '';
 ?>
 
