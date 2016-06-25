@@ -23,6 +23,7 @@ class TabelPenilaian extends Migration
             $table->timestamps();
             
             $table->foreign('penilai_id')->references('id')->on('pns')->onDelete('set null');
+            $table->foreign('target_kerja_id')->references('id')->on('target_kerja')->onDelete('set null');
         });
     }
 
