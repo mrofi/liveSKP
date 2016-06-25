@@ -12,7 +12,7 @@ use Carbon\Carbon;
 class PNSController extends BaseController
 {
     protected $judulIndex = 'PNS';
-    protected $judulTambah = 'Tambah D  ata PNS';
+    protected $judulTambah = 'Tambah Data PNS';
     protected $judulEdit = 'Edit Data PNS';
     protected $deskripsiIndex = 'Semua Data PNS';
     protected $deskripsiTambah = 'Untuk menambah data PNS';
