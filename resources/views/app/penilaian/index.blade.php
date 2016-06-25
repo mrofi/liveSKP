@@ -8,6 +8,8 @@
                 <tr>
                     <th>ID</th>
                     <th>PNS</th>
+                    <th>PNS</th>
+                    <th>PNS</th>
                     <th>Nilai</th>
                     <th>Tanggal Penilaian</th>
                     <th>Menu</th>

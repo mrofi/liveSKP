@@ -39,7 +39,7 @@ class SKPController extends BaseController
         }
         $this->skp = $this->pns->skps->last();
         view()->share('breadcrumb2', 'SKP Saya');
-        view()->share('breadcrumb2Icon', 'file-o');  
+        view()->share('breadcrumb2Icon', 'file-o');
     }
 
     public function getIndex()
@@ -58,15 +58,25 @@ class SKPController extends BaseController
         return view('app.skp.index', compact('pns', 'penilai', 'dataUrl'));
     }
 
+    public function anyData($id = null)
+    {
+        if ($id) {
+            $model = SKP::with('targetKerja')->findOrFail($id);
+            $id = $model->targetKerja->pluck('id');
+        }
+            
+        return parent::anyData($id);
+    }
+
     public function getShow($skp_id)
     {
         $skp = SKP::findOrFail($skp_id);
-        if (!$skp->pns->atasan || $skp->pns->atasan->nip != auth()->user()->pns->nip) return abort('404');
+        if (!$skp->pns->atasan || $skp->pns->atasan->id != auth()->user()->pns->id) return abort('404');
         $this->pns = $skp->pns;
         $this->dataUrl = action('SKPController@anyData', ['id' => $skp_id]);
-        $this->judulIndex = 'Penilaian SKP - '.$skp->pns->nip;
+        $this->judulIndex = 'Penilaian SKP - '.$skp->pns->id;
         $this->deskripsiIndex = ' ';
-        $this->breadcrumb3Index = $skp->pns->nip;
+        $this->breadcrumb3Index = $skp->pns->id;
         view()->share('breadcrumb2', 'Penilaian SKP');
         view()->share('breadcrumb2Url', '/penilaian');
         view()->share('noAddButton', true);
@@ -82,9 +92,9 @@ class SKPController extends BaseController
 
     public function postTambah(Request $request)
     {
-        $pns_nip = $this->pns->nip;
-        $penilai_nip = $this->pns->atasan_nip;
-        $this->skp = SKP::create(compact('pns_nip', 'penilai_nip'));
+        $pns_id = $this->pns->id;
+        $penilai_id = $this->pns->atasan_id;
+        $this->skp = SKP::create(compact('pns_id', 'penilai_id'));
 
         return parent::postTambah($request);
     }
@@ -98,7 +108,7 @@ class SKPController extends BaseController
 
     protected function processDatatables($datatables)
     {
-        $nip = auth()->user()->pns->nip;
+        $id = auth()->user()->pns->id;
         return $datatables
             ->editColumn('kuantitas', function($data) {
                 return $data->kuantitas.' '.$data->satuan_kuantitas;
@@ -143,8 +153,8 @@ class SKPController extends BaseController
             ->addColumn('nomor', function($data) {
                 return AutoNumbering::getNumber();
             })
-            ->editColumn('menu', function ($data) use ($nip) {
-                if ($data->skp->pns->nip == $nip) {
+            ->editColumn('menu', function ($data) use ($id) {
+                if ($data->skp->pns->id == $id) {
                     return
                     '<a href="'.action($this->baseClass.'@getEdit', [$data->{$this->model->getKeyName()}]).'" class="btn btn-small btn-link"><i class="fa fa-xs fa-pencil"></i> Edit</a> '.
                     Form::open(['style' => 'display: inline!important', 'method' => 'delete', 'action' => [$this->baseClass.'@deleteHapus', $data->{$this->model->getKeyName()}]]).'  <button type="submit" onClick="return confirm(\'Yakin mau menghapus?\');" class="btn btn-small btn-link"><i class="fa fa-xs fa-trash-o"></i> Delete</button></form>';

@@ -14,7 +14,7 @@ class TabelPenilaian extends Migration
     {
         Schema::create('penilaian', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('penilai_nip', 25)->nullable();
+            $table->integer('penilai_id')->unsigned()->nullable();
             $table->integer('target_kerja_id')->unsigned();
             $table->integer('kuantitas')->unsigned()->nullable();
             $table->integer('kualitas')->unsigned()->nullable();
@@ -22,7 +22,7 @@ class TabelPenilaian extends Migration
             $table->integer('biaya')->unsigned()->nullable();
             $table->timestamps();
             
-            $table->foreign('penilai_nip')->references('nip')->on('pns')->onDelete('set null');
+            $table->foreign('penilai_id')->references('id')->on('pns')->onDelete('set null');
         });
     }
 

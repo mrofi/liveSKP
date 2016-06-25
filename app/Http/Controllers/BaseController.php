@@ -69,12 +69,20 @@ class BaseController extends Controller
         return view('partials.appIndex');
     }
 
+    protected function settingMenu($data)
+    {
+        return
+                '<a href="'.action($this->baseClass.'@getEdit', [$data->{$this->model->getKeyName()}]).'" class="btn btn-small btn-link"><i class="fa fa-xs fa-pencil"></i> Edit</a> '.
+                Form::open(['style' => 'display: inline!important', 'method' => 'delete', 'action' => [$this->baseClass.'@deleteHapus', $data->{$this->model->getKeyName()}]]).'  <button type="submit" onClick="return confirm(\'Yakin mau menghapus?\');" class="btn btn-small btn-link"><i class="fa fa-xs fa-trash-o"></i> Delete</button></form>';
+    }
+
     public function anyData($id = null)
     {
         $datas = $this->model;
-        
+
         if ($id !== null) {
-            $datas = $datas->where($this->model->getKeyName(), $id);
+            $id = (array) $id;
+            $datas = $datas->whereIn($this->model->getKeyName(), $id);
         }
 
         $datas = $datas->select([null => $this->model->getKeyName()]+$this->model->getFillable());
@@ -84,12 +92,12 @@ class BaseController extends Controller
         }
 
         $datatables = Datatables::of($datas);
-        $datatables = $datatables
-            ->addColumn('menu', function ($data) {
-                return
-                '<a href="'.action($this->baseClass.'@getEdit', [$data->{$this->model->getKeyName()}]).'" class="btn btn-small btn-link"><i class="fa fa-xs fa-pencil"></i> Edit</a> '.
-                Form::open(['style' => 'display: inline!important', 'method' => 'delete', 'action' => [$this->baseClass.'@deleteHapus', $data->{$this->model->getKeyName()}]]).'  <button type="submit" onClick="return confirm(\'Yakin mau menghapus?\');" class="btn btn-small btn-link"><i class="fa fa-xs fa-trash-o"></i> Delete</button></form>';
-            });
+        if (!property_exists($this, 'withoutMenu')) {
+            $datatables = $datatables
+                ->addColumn('menu', function ($data) {
+                    return $this->settingMenu($data);
+                });
+        }
 
         $result = $this->processDatatables($datatables)
             ->make(true);

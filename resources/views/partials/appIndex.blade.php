@@ -18,7 +18,9 @@
 		    @foreach(array_values($fields) as $field)
 				<th>{{ $field }}</th>
 			@endforeach
+			@if (!isset($withoutMenu))
 				<th>Menu</th>
+			@endif
 			</thead>
 		</table>  	  	
   	</div><!-- /.box-body -->

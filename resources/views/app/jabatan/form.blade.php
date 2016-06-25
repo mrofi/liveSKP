@@ -14,10 +14,15 @@
 
 	<div class="row form-group">
 		<div class="col-md-3">
-			{!! Form::label('struktural', 'Struktural', ['class' => 'control-label']) !!}
+			{!! Form::label('status', 'Status', ['class' => 'control-label']) !!}
 		</div>
 		<div class="col-md-9">
-			{!! Form::checkbox('struktural', 1, $jabatan->struktural) !!}
+			<label for="status" class="control-label">
+				{!! Form::radio('status', App\Jabatan::STRUKTURAL, $jabatan->status, ['id' => 'struktural']) !!} Struktural
+			</label>
+			<label for="fungsional" class="control-label">
+				{!! Form::radio('status', App\Jabatan::FUNGSIONAL, $jabatan->status, ['id' => 'fungsional']) !!} Fungsional
+			</label>
 		</div>
 	</div>
 @stop

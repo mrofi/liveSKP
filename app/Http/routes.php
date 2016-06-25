@@ -36,7 +36,7 @@ Route::group(['prefix' => '/', 'middleware' => ['web']], function () {
         });
 
         Route::controller('profile', 'ProfileController');
-        Route::controller('dinas', 'DinasController');
+        Route::controller('instansi', 'InstansiController');
         Route::controller('jabatan', 'JabatanController');
         Route::controller('pns', 'PNSController');
         Route::controller('skp', 'SKPController');
@@ -47,6 +47,7 @@ Route::group(['prefix' => '/', 'middleware' => ['web']], function () {
             Route::get('skp/{skp_id}', 'SKPController@getShow');
             Route::controller('skp', 'PenilaianController');
         });
+        Route::controller('setting', 'SettingController');
     });
 });
 

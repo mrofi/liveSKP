@@ -8,7 +8,7 @@ class Penilaian extends BaseModel
 {
     protected $table = 'penilaian';
 
-    protected $fillable = ['penilai_nip', 'target_kerja_id', 'kuantitas', 'kualitas', 'waktu', 'biaya'];
+    protected $fillable = ['penilai_id', 'target_kerja_id', 'kuantitas', 'kualitas', 'waktu', 'biaya'];
 
 
     public function targetKerja()

@@ -15,7 +15,7 @@ class BuatTabelJabatan extends Migration
         Schema::create('jabatan', function (Blueprint $table) {
             $table->increments('id');
             $table->string('jabatan');
-            $table->boolean('struktural')->default('0'); // 1 or 0
+            $table->string('status', 20); // struktural atau fungsional
             $table->timestamps();
         });
     }

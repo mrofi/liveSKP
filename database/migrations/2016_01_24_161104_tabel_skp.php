@@ -15,15 +15,15 @@ class TabelSkp extends Migration
         Schema::create('skp', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('periode_id')->unsigned()->nullable();
-            $table->string('pns_nip', 25)->nullable();
-            $table->string('penilai_nip', 25)->nullable();
+            $table->integer('pns_id')->unsigned()->nullable();
+            $table->integer('penilai_id')->unsigned()->nullable();
             $table->integer('nilai')->unsigned();
             $table->date('tanggal_penilaian')->nullable();
             $table->timestamps();
 
             $table->foreign('periode_id')->references('id')->on('periode')->onDelete('set null');
-            $table->foreign('pns_nip')->references('nip')->on('pns')->onDelete('set null');
-            $table->foreign('penilai_nip')->references('nip')->on('pns')->onDelete('set null');
+            $table->foreign('pns_id')->references('id')->on('pns')->onDelete('set null');
+            $table->foreign('penilai_id')->references('id')->on('pns')->onDelete('set null');
 
         });
     }

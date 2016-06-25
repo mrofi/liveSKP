@@ -103,7 +103,7 @@ desired effect
             <li class="@if(request()->is('skp*'))active @endif"><a href="{{ asset('skp') }}"><span>SKP Saya</span></a></li>
             <li class="@if(request()->is('profile*'))active @endif"><a href="{{ asset('profile') }}"><span>Profile</span></a></li>
           @else
-            <li class="@if(request()->is('dinas*'))active @endif"><a href="{{ asset('dinas') }}"><span>Dinas</span></a></li>
+            <li class="@if(request()->is('instansi*'))active @endif"><a href="{{ asset('instansi') }}"><span>Instansi</span></a></li>
             <li class="@if(request()->is('jabatan*'))active @endif"><a href="{{ asset('jabatan') }}"><span>Jabatan</span></a></li>
             <li class="@if(request()->is('pns*'))active @endif"><a href="{{ asset('pns') }}"><span>PNS</span></a></li>
             <li class="@if(request()->is('profile*'))active @endif"><a href="{{ asset('profile') }}"><span>Profile</span></a></li>
@@ -154,7 +154,7 @@ desired effect
                   </p>
                   @if(auth()->user()->pns)
                   <p>
-                    {{ auth()->user()->pns->dinas->dinas }}
+                    {{ auth()->user()->pns->instansi->instansi }}
                   </p>
                   @endif
                 </li>
@@ -291,11 +291,13 @@ desired effect
 
     $.fn.liveposCurrency = {aSep: '.', aDec: ',', aSign: 'Rp. ', lZero: 'deny'};
     $.fn.liveposNumeric = {aSep: '.', aDec: ',', aSign: '', lZero: 'deny'};
+    $.fn.liveposTelephone = {aSep: '', aDec: ',', aSign: '', lZero: 'keep', 'mDec': '0'};
 
     $('select').select2({windowdth: '100%'});    
     
     $('.input-mask.input-mask-currency').autoNumeric('init', $.fn.liveposCurrency);
     $('.input-mask.input-mask-numeric').autoNumeric('init', $.fn.liveposNumeric);
+    $('.input-mask.input-mask-telephone').autoNumeric('init', $.fn.liveposTelephone);
 
     form.submit(function(e) {
       form.find('.btn-primary').prop('disabled', true); 
@@ -359,8 +361,8 @@ desired effect
         serverSide: true,
         ajax: '{{ $dataUrl or url($base.'/data') }}',
         columns: [
-          @foreach(array_keys($fields) as $field) { name: '{{ $field }}', data: '{{ $field }}', sortable: {{ in_array($field, $unsortables) ? 'false' : 'true'}}}, @endforeach
-          { name: 'menu', data: 'menu', sortable: false },
+          @foreach(array_keys($fields) as $field) { name: '{{ $field }}', data: '{{ $field }}', sortable: {{ in_array($field, $unsortables) ? 'false' : 'true'}}, searchable: {{ in_array($field, $unsortables) ? 'false' : 'true'}}}, @endforeach
+          @if (!isset($withoutMenu)) { name: 'menu', data: 'menu', sortable: false }, @endif
         ],
     });
   @endif

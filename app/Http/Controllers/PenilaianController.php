@@ -22,7 +22,7 @@ class PenilaianController extends BaseController
         $this->deskripsiIndex = 'Daftar Semua SKP';
         parent::__construct($model, $base);
         view()->share('breadcrumb2', 'Penilaian SKP');
-        view()->share('breadcrumb2Icon', 'files-o');    
+        view()->share('breadcrumb2Icon', 'files-o');
     }
 
     public function semua()
@@ -30,8 +30,8 @@ class PenilaianController extends BaseController
         parent::getIndex();
         view()->share('breadcrumb3', 'Lihat Semua');
         $fields = $this->model->getFields();
-        $fields = array_except($fields, ['periode_id', 'penilai_nip']);
-        // $fields = array_merge($fields, ['nilai', 'tanggal_penilaian']);
+        $fields = array_except($fields, ['periode_id', 'penilai_id']);
+        $fields = array_merge($fields, ['nilai', 'tanggal_penilaian']);
         view()->share('fields', $fields);
         return view('app.penilaian.index');
     }

@@ -3,7 +3,8 @@
 @section('templateBody')
 <body class="hold-transition login-page">
 <div class="login-box">
-  <div class="login-logo">
+  <div class="login-logo text-center">
+    <img src="/images/logo.png">
     <a href="/">@yield('nama.app.full', '<b>SKP</b>NS')</a>
   </div>
   <!-- /.login-logo -->

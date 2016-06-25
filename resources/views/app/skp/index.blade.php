@@ -25,9 +25,9 @@
                 </div>
             </div>
             <div class="row">
-                <label class="col-sm-2 control-label">Dinas</label>
+                <label class="col-sm-2 control-label">Instansi</label>
                 <div class="col-sm-9">
-                    <p class="form-control-static">{{ $pns->dinas->dinas }}</p>
+                    <p class="form-control-static">{{ $pns->instansi->instansi }}</p>
                 </div>
             </div>
     </div>
@@ -55,9 +55,9 @@
                 </div>
             </div>
             <div class="row">
-                <label class="col-sm-2 control-label">Dinas</label>
+                <label class="col-sm-2 control-label">Instansi</label>
                 <div class="col-sm-9">
-                    <p class="form-control-static">{{ $penilai->dinas->dinas }}</p>
+                    <p class="form-control-static">{{ $penilai->instansi->instansi }}</p>
                 </div>
             </div>
         @endif

@@ -7,14 +7,14 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\User as Model;
 
-class ProfileController extends BaseController
+class SettingController extends BaseController
 {
     protected $withoutMenu = true;
  
-    public function __construct(Model $model, $base = 'profile')
+    public function __construct(Model $model, $base = 'setting')
     {
         parent::__construct($model, $base);
-        view()->share('breadcrumb2Icon', 'image');
+        view()->share('breadcrumb2Icon', 'cog');
         view()->share('noAddButton', true);
         view()->share('withoutMenu', true);
     }

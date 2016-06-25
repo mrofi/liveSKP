@@ -13,7 +13,7 @@ class User extends Authenticatable implements BaseModelInterface
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'deskripsi', 'foto_url', 'is_admin'
+        'name', 'email', 'password', 'deskripsi', 'foto', 'is_admin'
     ];
 
     /**
@@ -30,8 +30,6 @@ class User extends Authenticatable implements BaseModelInterface
     protected $dependencies = [];
 
     protected $rules = [];
-
-    protected $aliases = ['foto_url' => 'Picture'];
 
     public function getInitial()
     {
@@ -50,7 +48,7 @@ class User extends Authenticatable implements BaseModelInterface
 
     public function pns()
     {
-        return $this->hasOne(PNS::class, 'pengguna_id', 'id')->with(['atasan', 'jabatan', 'dinas', 'skps']);
+        return $this->hasOne(PNS::class, 'pengguna_id', 'id')->with(['atasan', 'jabatan', 'instansi', 'skps']);
     }
 
 }

@@ -44,7 +44,7 @@
 			{!! Form::label('telp', 'Telp', ['class' => 'control-label']) !!}
 		</div>
 		<div class="col-md-9">
-			{!! Form::tel('telp', $pns->telp, ['class' => 'form-control']) !!}
+			{!! Form::tel('telp', $pns->telp, ['class' => 'form-control input-mask input-mask-telephone']) !!}
 		</div>
 	</div>
 
@@ -68,7 +68,16 @@
 	
 	<div class="row form-group">
 		<div class="col-md-3">
-			{!! Form::label('jabatan', 'Jabatan', ['class' => 'control-label']) !!}
+			{!! Form::label('instansi', 'Instansi', ['class' => 'control-label']) !!}
+		</div>
+		<div class="col-md-9">
+			{!! Form::select('instansi', [null => 'Pilih Instansi'] + $instansis, $pns->instansi_id, ['class' => 'form-control']) !!}
+		</div>
+	</div>
+
+	<div class="row form-group">
+		<div class="col-md-3">
+			{!! Form::label('jabatan', 'Status', ['class' => 'control-label']) !!}
 		</div>
 		<div class="col-md-9">
 			{!! Form::select('jabatan', [null => 'Pilih Jabatan'] + $jabatans, $pns->jabatan_id, ['class' => 'form-control']) !!}
@@ -77,19 +86,10 @@
 
 	<div class="row form-group">
 		<div class="col-md-3">
-			{!! Form::label('dinas', 'Dinas', ['class' => 'control-label']) !!}
-		</div>
-		<div class="col-md-9">
-			{!! Form::select('dinas', [null => 'Pilih Dinas'] + $dinases, $pns->dinas_id, ['class' => 'form-control']) !!}
-		</div>
-	</div>
-
-	<div class="row form-group">
-		<div class="col-md-3">
 			{!! Form::label('atasan', 'Atasan', ['class' => 'control-label']) !!}
 		</div>
 		<div class="col-md-9">
-			{!! Form::select('atasan', [null => 'Pilih Atasan'] + $atasans, $pns->atasan_nip, ['class' => 'form-control']) !!}
+			{!! Form::select('atasan', [null => 'Pilih Atasan'] + $atasans, $pns->atasan_id, ['class' => 'form-control']) !!}
 		</div>
 	</div>
 

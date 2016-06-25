@@ -6,7 +6,7 @@ class SKP extends BaseModel
 {
     protected $table = 'skp';
         
-    protected $fillable = ['id', 'periode_id', 'pns_nip', 'penilai_nip', 'nilai', 'tanggal_penilaian'];
+    protected $fillable = ['id', 'periode_id', 'pns_id', 'penilai_id', 'nilai', 'tanggal_penilaian'];
 
     public $dependencies = ['periode', 'pns', 'penilai'];
 
@@ -17,12 +17,16 @@ class SKP extends BaseModel
 
     public function pns()
     {
-        return $this->belongsTo(PNS::class, 'pns_nip', 'nip');
+        return $this->belongsTo(PNS::class, 'pns_id', 'id');
     }
 
     public function penilai()
     {
-        return $this->belongsTo(PNS::class, 'penilai_nip', 'nip');
+        return $this->belongsTo(PNS::class, 'penilai_id', 'id');
     }
 
+    public function targetKerja()
+    {
+        return $this->hasMany(TargetKerja::class, 'skp_id');
+    }
 }
