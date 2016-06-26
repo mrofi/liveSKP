@@ -7,6 +7,7 @@
     "require": {
         "php": ">=5.5.9",
         "laravel/framework": "5.2.*",
+        "livecms/support": "dev-master",
         "yajra/laravel-datatables-oracle": "^6.0",
         "laravelcollective/html": "^5.2",
         "uxweb/sweet-alert": "^1.1"
@@ -49,7 +50,6 @@
             "php artisan optimize"
         ]
     },
-    "config": {
-        "preferred-install": "dist"
-    }
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

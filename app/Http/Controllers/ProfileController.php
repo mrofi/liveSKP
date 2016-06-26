@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Form;
+use Upload;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\User as Model;
@@ -30,8 +31,26 @@ class ProfileController extends BaseController
         return redirect($this->base);
     }
 
-    // protected function settingMenu($data)
-    // {
-    //     return '<a class="btn btn-sm btn-success" href="#"><i class="fa fa-refresh"></i> Reset Password</a>';
-    // }
+    public function me()
+    {
+        $view = [
+            'title' => 'Profile Saya',
+            'deskripsi' => 'Untuk merubah profile dan password.',
+            'action' => 'meUpdate',
+        ];
+        view()->share($view);
+
+        $profile = auth()->user();
+        return view('app.profile.form', compact('profile'));
+    }
+
+    public function meUpdate(Request $request)
+    {
+        $profile = auth()->user();
+        $profile->fill($request->all());
+        Upload::model($profile);
+        $profile->save();
+
+        return redirect()->action('ProfileController@me');
+    }
 }

@@ -36,6 +36,8 @@ Route::group(['prefix' => '/', 'middleware' => ['web']], function () {
         });
 
         Route::controller('profile', 'ProfileController');
+        Route::get('me', ['uses' => 'ProfileController@me']);
+        Route::post('me', ['uses' => 'ProfileController@meUpdate']);
         Route::controller('instansi', 'InstansiController');
         Route::controller('jabatan', 'JabatanController');
         Route::controller('pns', 'PNSController');

@@ -3,10 +3,14 @@
 namespace App;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use LiveCMS\Support\Thumbnailer\Contracts\ModelThumbnailerInterface;
+use LiveCMS\Support\Thumbnailer\ModelThumbnailerTrait;
+use LiveCMS\Support\Uploader\Contracts\ModelUploaderInterface;
+use LiveCMS\Support\Uploader\ModelUploaderTrait;
 
-class User extends Authenticatable implements BaseModelInterface
+class User extends Authenticatable implements BaseModelInterface, ModelUploaderInterface, ModelThumbnailerInterface
 {
-    use BaseModelTrait;
+    use BaseModelTrait, ModelUploaderTrait, ModelThumbnailerTrait;
     /**
      * The attributes that are mass assignable.
      *
@@ -30,6 +34,11 @@ class User extends Authenticatable implements BaseModelInterface
     protected $dependencies = [];
 
     protected $rules = [];
+
+    protected $files = ['foto'];
+
+    protected $images = ['foto'];
+
 
     public function getInitial()
     {

@@ -160,6 +160,7 @@ return [
         Yajra\Datatables\DatatablesServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
         UxWeb\SweetAlert\SweetAlertServiceProvider::class,
+        LiveCMS\Support\LiveCMSSupportServiceProvider::class,
 
     ],
 
@@ -214,6 +215,9 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
         'Alert' => UxWeb\SweetAlert\SweetAlert::class,
 
+        'Email' => LiveCMS\Support\Emailer\Facades\Email::class,
+        'Upload' => LiveCMS\Support\Uploader\Facades\Upload::class,
+        'Thumb' => LiveCMS\Support\Thumbnailer\Facades\Thumb::class,
 
     ],
 
