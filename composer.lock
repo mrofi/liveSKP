@@ -915,12 +915,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/livecms/Support.git",
-                "reference": "af03fb1e2fa600cf99f147c72e8d566690657a46"
+                "reference": "740a325bc2f6009b6e82020eff80751acce3f59b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/livecms/Support/zipball/af03fb1e2fa600cf99f147c72e8d566690657a46",
-                "reference": "af03fb1e2fa600cf99f147c72e8d566690657a46",
+                "url": "https://api.github.com/repos/livecms/Support/zipball/740a325bc2f6009b6e82020eff80751acce3f59b",
+                "reference": "740a325bc2f6009b6e82020eff80751acce3f59b",
                 "shasum": ""
             },
             "require": {
@@ -949,7 +949,7 @@
             ],
             "description": "The LiveCMS Support package.",
             "homepage": "https://github.com/livecms/liveCMS",
-            "time": "2016-06-26 06:54:26"
+            "time": "2016-06-26 17:13:59"
         },
         {
             "name": "maatwebsite/excel",

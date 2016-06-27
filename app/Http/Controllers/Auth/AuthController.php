@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use App\PNS;
 use Validator;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 
@@ -29,6 +31,8 @@ class AuthController extends Controller
      * @var string
      */
     protected $redirectTo = '/home';
+
+    protected $username = 'credential';
 
     /**
      * Create a new authentication controller instance.
@@ -68,5 +72,31 @@ class AuthController extends Controller
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
+    }
+
+    /**
+     * Get the needed authorization credentials from the request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return array
+     */
+    public function getCredentials(Request $request)
+    {
+        $credential = $request->get('credential');
+        $password = $request->get('password');
+        $user = User::where('email', $credential)->first();
+
+        if (!$user) {
+            $pns = PNS::with('user')->where('nip', $credential)->first();
+            if ($pns) {
+                $user = $pns->user;
+            }
+        }
+        if ($user) {
+            $email = $user->email;
+            return compact('email', 'password');
+        }
+
+        return $request->only('email', 'password');
     }
 }

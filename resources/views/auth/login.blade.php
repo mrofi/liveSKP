@@ -5,16 +5,16 @@
 <div class="login-box">
   <div class="login-logo text-center">
     <img src="/images/logo.png">
-    <a href="/">@yield('nama.app.full', '<b>SKP</b>NS')</a>
+    <a href="/">@yield('nama.app.full', '<b>SKP</b>NS') <br>Kota Pekalongan</a>
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
-    <p class="login-box-msg">Sign in to start your session</p>
+    <p class="login-box-msg">Silakan Login</p>
 
     {!! Form::open() !!}
-        @if($errors->first('email')) <span class="lead label label-danger">{{ $errors->first('email') }}</span>@endif 
+        @if($errors->first('credential')) <span class="lead label label-danger">{{ $errors->first('credential') }}</span>@endif 
         <div class="form-group has-feedback">
-            {!! Form::email('email', null, ['class' => 'form-control', 'placeholder' => 'Email']) !!}
+            {!! Form::text('credential', null, ['class' => 'form-control', 'placeholder' => 'NIP atau Email']) !!}
             <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
         </div>
         @if($errors->first('password')) <span class="lead label label-danger">{{ $errors->first('password') }}</span>@endif 

@@ -18,11 +18,11 @@
 		</div>
 		<div class="col-md-9">
 			<label for="struktural" class="control-label">
-				{!! Form::radio('status', App\Jabatan::STRUKTURAL, $jabatan->status, ['id' => 'struktural']) !!} Struktural
+				{!! Form::radio('status', App\Jabatan::STRUKTURAL, $jabatan->status == App\Jabatan::STRUKTURAL, ['id' => 'struktural']) !!} Struktural
 			</label>
 			&nbsp;
 			<label for="fungsional" class="control-label">
-				{!! Form::radio('status', App\Jabatan::FUNGSIONAL, $jabatan->status, ['id' => 'fungsional']) !!} Fungsional
+				{!! Form::radio('status', App\Jabatan::FUNGSIONAL, $jabatan->status == App\Jabatan::FUNGSIONAL, ['id' => 'fungsional']) !!} Fungsional
 			</label>
 		</div>
 	</div>

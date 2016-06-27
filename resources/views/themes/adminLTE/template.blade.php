@@ -7,7 +7,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>{{ $judul or 'Judul' }} | {{ $namaApp or 'SKPNS - Penilaian Sasaran Kerja Pegawai Negeri Sipil' }}</title>
+  <title>{{ $judul or 'Judul' }} | {{ $namaApp or 'SKPNS - Penilaian Sasaran Kerja Pegawai Negeri Sipil Kota Pekalongan' }}</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- CSRF -->
@@ -41,11 +41,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
         height: 30px;
         text-align: center;
         background-color: rgba(85, 85, 85, 0.25);
+        color: #fff;
         border-radius: 50%;
         margin-top: -5px;
         margin-bottom: -5px;
         padding: 5px;
+        position: absolute;
     }
+
   </style>
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -101,12 +104,12 @@ desired effect
             <li class="@if(request()->is('penilaian*'))active @endif"><a href="{{ asset('penilaian') }}"></i> <span>Penilaian SKP</span></a></li>
             @endif
             <li class="@if(request()->is('skp*'))active @endif"><a href="{{ asset('skp') }}"><span>SKP Saya</span></a></li>
-            <li class="@if(request()->is('profile*'))active @endif"><a href="{{ asset('profile') }}"><span>Profile</span></a></li>
+            <li class="@if(request()->is('me*'))active @endif"><a href="{{ asset('me') }}"><span>Profile Saya</span></a></li>
           @else
             <li class="@if(request()->is('instansi*'))active @endif"><a href="{{ asset('instansi') }}"><span>Instansi</span></a></li>
             <li class="@if(request()->is('jabatan*'))active @endif"><a href="{{ asset('jabatan') }}"><span>Jabatan</span></a></li>
             <li class="@if(request()->is('pns*'))active @endif"><a href="{{ asset('pns') }}"><span>PNS</span></a></li>
-            <li class="@if(request()->is('profile*'))active @endif"><a href="{{ asset('profile') }}"><span>Profile</span></a></li>
+            <li class="@if(request()->is('me*'))active @endif"><a href="{{ asset('me') }}"><span>Profile Saya</span></a></li>
 
             <li class="@if(request()->is('setting*'))active @endif"><a href="{{ asset('setting') }}"><span>Setting</span></a></li>
           @endif
@@ -137,22 +140,24 @@ desired effect
               <!-- Menu Toggle Button -->
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 <!-- The user image in the navbar-->
+                @if (!($picture = auth()->user()->foto_thumbnail))
                 <div class="user-label">
                   <span>{{ auth()->user()->getInitial() }}</span>
                 </div>
-                <!-- <img src="/backend/dist/img/user2-160x160.jpg" class="user-image" alt="User Image"> -->
-
+                @else
+                <img src="{{$picture}}" class="user-image" alt="User Image">
+                @endif
                 <!-- hidden-xs hides the username on small devices so only the image appears. -->
+                <span @if (!$picture) style="margin-left: 40px;" @endif class="hidden-xs">{{auth()->user()->name}}</span>
               </a>
               <ul class="dropdown-menu">
                 <!-- The user image in the menu -->
                 <li class="user-header">
-                  @if (auth()->user()->foto)
-                  <img src="{{auth()->user()->foto}}" class="img-circle" alt="User Image">
+                  @if ($picture)
+                  <img src="{{$picture}}" class="img-circle" alt="User Image">
                   @else
                   <i class="text-gray ion ion-person fa-5x"></i>
                   @endif
-
                   <p>
                     {{ auth()->user()->name }} @if(auth()->user()->pns) - {{ auth()->user()->pns->jabatan->jabatan }} @endif
                   </p>

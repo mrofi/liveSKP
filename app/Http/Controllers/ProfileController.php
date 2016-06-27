@@ -49,7 +49,6 @@ class ProfileController extends BaseController
         $profile = auth()->user();
         $profile->fill($request->all());
         Upload::model($profile);
-        $profile->save();
 
         return redirect()->action('ProfileController@me');
     }
