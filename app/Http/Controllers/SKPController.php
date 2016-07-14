@@ -72,14 +72,17 @@ class SKPController extends BaseController
 
     public function getShow($skp_id)
     {
-        $skp = SKP::findOrFail($skp_id);
+        $skp = SKP::with('targetKerja.penilaian')->findOrFail($skp_id);
         if (!$skp->pns->atasan || $skp->pns->atasan->id != auth()->user()->pns->id) return abort('404');
         $this->pns = $skp->pns;
         $this->dataUrl = action('SKPController@anyData', ['id' => $skp_id]);
         $this->judulIndex = 'Penilaian SKP - '.$skp->pns->id;
         $this->deskripsiIndex = ' ';
         $this->breadcrumb3Index = $skp->pns->nama;
-        view()->share('showingData', true);
+        $doneButton = $skp->targetKerja->filter(function ($item) {
+            return !$item->penilaian;
+        })->count() == 0;
+        view()->share('doneButton', $doneButton);
         view()->share('breadcrumb2', 'Penilaian SKP');
         view()->share('breadcrumb2Url', '/penilaian');
         view()->share('noAddButton', true);
