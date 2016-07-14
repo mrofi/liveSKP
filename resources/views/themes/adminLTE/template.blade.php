@@ -159,11 +159,11 @@ desired effect
                   <i class="text-gray ion ion-person fa-5x"></i>
                   @endif
                   <p>
-                    {{ auth()->user()->name }} @if(auth()->user()->pns) - {{ auth()->user()->pns->jabatan->jabatan }} @endif
+                    {{ auth()->user()->name }} @if(auth()->user()->pns) - {{ auth()->user()->pns->jabatan ? auth()->user()->pns->jabatan->jabatan : '' }} @endif
                   </p>
                   @if(auth()->user()->pns)
                   <p>
-                    {{ auth()->user()->pns->instansi->instansi }}
+                    {{ auth()->user()->pns->instansi ? auth()->user()->pns->instansi->instansi : '' }}
                   </p>
                   @endif
                 </li>

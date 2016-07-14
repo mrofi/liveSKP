@@ -29,7 +29,12 @@ class PNSController extends BaseController
             $query->where('status', Jabatan::STRUKTURAL);
         });
 
-        $this->atasans = $atasans;
+        $list = $atasans->get();
+
+        $atasans = [];
+        foreach ($list as $atasan) {
+            $atasans[$atasan->id] = "{$atasan->nip} - {$atasan->nama}";
+        }
 
         $jenis_kelamins = Model::getJenisKelamin();
 
@@ -37,6 +42,7 @@ class PNSController extends BaseController
         view()->share('breadcrumb2Icon', 'male');
         view()->share('jabatans', $jabatans);
         view()->share('instansis', $instansis);
+        view()->share('atasans', $atasans);
         view()->share('jenis_kelamins', $jenis_kelamins);
     }
 
@@ -54,6 +60,10 @@ class PNSController extends BaseController
                 if ($data->instansi !== null) return $data->instansi->instansi;
                 return '-';
             })
+            ->editColumn('atasan_id', function ($data) {
+                if ($data->atasan !== null) return $data->atasan->nip .' - '. $data->atasan->nama;
+                return '-';
+            })
             ->editColumn('jenis_kelamin', function ($data) {
                 $jenisKelamins = $this->model->getJenisKelamin();
                 return $jenisKelamins[$data->jenis_kelamin];
@@ -67,9 +77,11 @@ class PNSController extends BaseController
         if (strlen($nip = $request->get('nip', '')) < 18) $request->merge(['nip' => $nip. str_repeat('_', 18 - strlen($nip))]);
 
         $atasan = $request->get('atasan', null);
+        $jabatan = $request->get('jabatan', null);
+        $instansi = $request->get('instansi', null);
         $newRequests = [
-            'jabatan_id' => $request->get('jabatan'),
-            'instansi_id' => $request->get('instansi'),
+            'jabatan_id' => empty($jabatan) ? null : $jabatan,
+            'instansi_id' => empty($instansi) ? null : $instansi,
             'atasan_id' => empty($atasan) ? null : $atasan,
             'originalTmt' => $request->get('tmt'),
             'tmt' => (new Carbon($request->get('tmt')))->format('d-F-Y'),
@@ -95,43 +107,43 @@ class PNSController extends BaseController
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
-     */
-    public function getTambah()
-    {
-        $list = $this->atasans->get();
+    //  */
+    // public function getTambah()
+    // {
+    //     $list = $this->atasans->get();
 
-        $atasans = [];
-        foreach ($list as $atasan) {
-            $atasans[$atasan->id] = "{$atasan->nip} - {$atasan->nama}";
-        }
+    //     $atasans = [];
+    //     foreach ($list as $atasan) {
+    //         $atasans[$atasan->id] = "{$atasan->nip} - {$atasan->nama}";
+    //     }
 
-        view()->share('atasans', $atasans);
-        return parent::getTambah();
-    }
+    //     view()->share('atasans', $atasans);
+    //     return parent::getTambah();
+    // }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function getEdit($id)
-    {
-        $model = $this->model->where($this->model->getKeyName(), $id)->first();
+    // /**
+    //  * Show the form for editing the specified resource.
+    //  *
+    //  * @param  int  $id
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // public function getEdit($id)
+    // {
+    //     $model = $this->model->where($this->model->getKeyName(), $id)->first();
 
-        $atasans = $this->atasans;
+    //     $atasans = $this->atasans;
 
-        if ($model->instansi_id) $atasans = $atasans->where('instansi_id', $model->instansi_id);
+    //     if ($model->instansi_id) $atasans = $atasans->where('instansi_id', $model->instansi_id);
 
-        $list = $atasans->lists('nama', 'nip')->toArray();
+    //     $list = $atasans->get();
 
-        $atasans = [];
-        foreach ($list as $nip => $nama) {
-            $atasans[$nip] = "{$nip} - {$nama}";
-        }
+    //     $atasans = [];
+    //     foreach ($list as $atasan) {
+    //         $atasans[$atasan->id] = "{$atasan->nip} - {$atasan->nama}";
+    //     }
 
-        view()->share('atasans', $atasans);
+    //     view()->share('atasans', $atasans);
 
-        return parent::getEdit($id);
-    }
+    //     return parent::getEdit($id);
+    // }
 }

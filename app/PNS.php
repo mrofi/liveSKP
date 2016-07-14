@@ -24,6 +24,7 @@ class PNS extends BaseModel
         'tmt' => 'TMT',
         'jabatan_id' => 'Jabatan',
         'instansi_id' => 'Instansi',
+        'atasan_id' => 'Atasan',
     ];
 
     const LAKILAKI = 'L';
@@ -51,7 +52,7 @@ class PNS extends BaseModel
     {
         $fillable = parent::getFillable();
 
-        return array_flip(array_except(array_flip($fillable), ['pengguna_id', 'atasan_id']));
+        return array_flip(array_except(array_flip($fillable), ['pengguna_id']));
     }
 
     public static function getJenisKelamin()
