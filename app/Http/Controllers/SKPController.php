@@ -78,7 +78,8 @@ class SKPController extends BaseController
         $this->dataUrl = action('SKPController@anyData', ['id' => $skp_id]);
         $this->judulIndex = 'Penilaian SKP - '.$skp->pns->id;
         $this->deskripsiIndex = ' ';
-        $this->breadcrumb3Index = $skp->pns->id;
+        $this->breadcrumb3Index = $skp->pns->nama;
+        view()->share('showingData', true);
         view()->share('breadcrumb2', 'Penilaian SKP');
         view()->share('breadcrumb2Url', '/penilaian');
         view()->share('noAddButton', true);

@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="row">
-    <div class="col-sm-6">
+    <div class="col-sm-5">
             <div class="row">
                 <label class="col-sm-2 control-label"><h4>PNS</h4></label>
             </div>
@@ -31,7 +31,7 @@
                 </div>
             </div>
     </div>
-    <div class="col-sm-6">
+    <div class="col-sm-5">
             <div class="row">
                 <label class="col-sm-2 control-label"><h4>Penilai</h4></label>
             </div>
@@ -60,6 +60,11 @@
                     <p class="form-control-static">{{ $penilai->instansi ? $penilai->instansi->instansi : '' }}</p>
                 </div>
             </div>
+        @endif
+    </div>
+    <div class="col-sm-2" style="padding-top: 3em; padding-bottom: 3em;">
+        @if (isset($showingData))
+            <a href="#" class="btn btn-success btn-lg btn-block"><i class="fa fa-check"></i> Selesai Beri Nilai</a>
         @endif
     </div>
 </div>
