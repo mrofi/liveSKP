@@ -34,6 +34,7 @@ class ProfileController extends BaseController
     public function me()
     {
         $view = [
+            'judul' => 'Profile Saya',
             'title' => 'Profile Saya',
             'deskripsi' => 'Untuk merubah profile dan password.',
             'action' => 'meUpdate',
