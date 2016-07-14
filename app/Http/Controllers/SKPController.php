@@ -37,7 +37,9 @@ class SKPController extends BaseController
         if ($this->pns == null) {
             return back();
         }
-        $this->skp = $this->pns->skps->last();
+        $pns_id = $this->pns->id;
+        $penilai_id = $this->pns->atasan_id;
+        $this->skp = $this->pns->skps->last() ?: SKP::create(compact('pns_id', 'penilai_id'));
         view()->share('breadcrumb2', 'SKP Saya');
         view()->share('breadcrumb2Icon', 'file-o');
     }
@@ -62,7 +64,7 @@ class SKPController extends BaseController
     {
         if ($id) {
             $model = SKP::with('targetKerja')->findOrFail($id);
-            $id = $model->targetKerja->pluck('id');
+            $id = $model->targetKerja->pluck('id')->toArray();
         }
             
         return parent::anyData($id);
@@ -88,22 +90,6 @@ class SKPController extends BaseController
         $skp_id = $this->skp->id;
         $request->merge(compact('skp_id'));
         return $request;
-    }
-
-    public function postTambah(Request $request)
-    {
-        $pns_id = $this->pns->id;
-        $penilai_id = $this->pns->atasan_id;
-        $this->skp = SKP::create(compact('pns_id', 'penilai_id'));
-
-        return parent::postTambah($request);
-    }
-
-    public function postEdit(Request $request, $id)
-    {
-        $model = $this->model->find($id);
-        $this->skp = $model->skp;
-        return parent::postEdit($request, $id);
     }
 
     protected function processDatatables($datatables)
