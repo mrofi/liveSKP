@@ -98,13 +98,13 @@
             <div class="row">
                 <label class="col-sm-3 control-label">Jabatan</label>
                 <div class="col-sm-9">
-                    <p class="form-control-static">{{ $pns->jabatan->jabatan }}</p>
+                    <p class="form-control-static">{{ $pns->jabatan ? $pns->jabatan->jabatan : '' }}</p>
                 </div>
             </div>
             <div class="row">
-                <label class="col-sm-3 control-label">Dinas</label>
+                <label class="col-sm-3 control-label">Instansi</label>
                 <div class="col-sm-9">
-                    <p class="form-control-static">{{ $pns->dinas->dinas }}</p>
+                    <p class="form-control-static">{{ $pns->instansi ? $pns->instansi->instansi : '' }}</p>
                 </div>
             </div>
 @stop

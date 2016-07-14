@@ -22,11 +22,11 @@ class Penilaian extends BaseModel
 
         static::saved(function($model)
         {
-            $targetKerja = TargetKerja::find($model->attributes['target_kerja_id']);
-            $skp = SKP::find($targetKerja->attributes['skp_id']);
-            if ($skp->tanggal_penilaian == null) {
-                $skp->update(['tanggal_penilaian' => Carbon::now()]);
-            }
+            // $targetKerja = TargetKerja::find($model->attributes['target_kerja_id']);
+            // $skp = SKP::find($targetKerja->attributes['skp_id']);
+            // if ($skp->tanggal_penilaian == null) {
+            //     $skp->update(['tanggal_penilaian' => Carbon::now()]);
+            // }
         });
     }
 

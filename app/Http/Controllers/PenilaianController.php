@@ -31,7 +31,6 @@ class PenilaianController extends BaseController
         view()->share('breadcrumb3', 'Lihat Semua');
         $fields = $this->model->getFields();
         $fields = array_except($fields, ['periode_id', 'penilai_id']);
-        $fields = array_merge($fields, ['nilai', 'tanggal_penilaian']);
         view()->share('fields', $fields);
         return view('app.penilaian.index');
     }
@@ -43,7 +42,7 @@ class PenilaianController extends BaseController
         $ids = [];
 
         foreach ($bawahan as $pns) {
-            foreach ($pns->skps()->lists('id') as $id) {
+            foreach ($pns->skps()->whereNull('tanggal_penilaian')->lists('id') as $id) {
                 $ids[] = $id;
             }
         }
@@ -57,6 +56,7 @@ class PenilaianController extends BaseController
         $datatables = Datatables::of($datas);
         $datatables = $this->processDatatables($datatables);
         $result = $datatables
+            ->removeColumn('penilai_id')
             ->addColumn('menu', function ($data) {
                 return
                 '<a href="/penilaian/skp/'.$data->id.'" class="btn btn-small btn-link"><i class="fa fa-xs fa-pencil"></i> Detail</a> ';
@@ -103,7 +103,7 @@ class PenilaianController extends BaseController
         $updated = $model->update($request->all());
 
         if ($updated) {
-            return redirect('skp/'.$targetKerja->skp->id);
+            return redirect('penilaian/skp/'.$targetKerja->skp->id);
         }
     }
 

@@ -21,13 +21,13 @@
             <div class="row">
                 <label class="col-sm-2 control-label">Jabatan</label>
                 <div class="col-sm-9">
-                    <p class="form-control-static">{{ $pns->jabatan->jabatan }}</p>
+                    <p class="form-control-static">{{ $pns->jabatan ? $pns->jabatan->jabatan : '' }}</p>
                 </div>
             </div>
             <div class="row">
                 <label class="col-sm-2 control-label">Instansi</label>
                 <div class="col-sm-9">
-                    <p class="form-control-static">{{ $pns->instansi->instansi }}</p>
+                    <p class="form-control-static">{{ $pns->instansi ? $pns->instansi->instansi : '' }}</p>
                 </div>
             </div>
     </div>
@@ -51,13 +51,13 @@
             <div class="row">
                 <label class="col-sm-2 control-label">Jabatan</label>
                 <div class="col-sm-9">
-                    <p class="form-control-static">{{ $penilai->jabatan->jabatan }}</p>
+                    <p class="form-control-static">{{ $penilai->jabatan ? $penilai->jabatan->jabatan : '' }}</p>
                 </div>
             </div>
             <div class="row">
                 <label class="col-sm-2 control-label">Instansi</label>
                 <div class="col-sm-9">
-                    <p class="form-control-static">{{ $penilai->instansi->instansi }}</p>
+                    <p class="form-control-static">{{ $penilai->instansi ? $penilai->instansi->instansi : '' }}</p>
                 </div>
             </div>
         @endif
