@@ -99,7 +99,7 @@ desired effect
           <ul class="nav navbar-nav">
             <!-- Optionally, you can add icons to the links -->
             <li class="@if(request()->is('home'))active @endif"><a href="{{ asset('home') }}"><i class="fa fa-lg fa-home"></i></a></li>
-            @if(auth()->user()->is_admin || $usercount(auth()->user()->pns->bawahan))
+            @if(auth()->user()->is_admin || count(auth()->user()->pns->bawahan))
             <li class="@if(request()->is('penilaian*'))active @endif"><a href="{{ asset('penilaian') }}"></i> <span>Penilaian SKP</span></a></li>
             @endif
           @if(!auth()->user()->is_admin)
