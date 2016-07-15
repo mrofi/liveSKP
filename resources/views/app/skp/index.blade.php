@@ -92,7 +92,8 @@
                     <th rowspan="2">Angka Kredit</th>
                     <th colspan="4" class="text-center">Target</th>
                     <th colspan="4" class="text-center">Realisasi</th>
-    				<th rowspan="2">Menu</th>
+                    <th rowspan="2" class="text-center">Nilai</th>
+    				<th rowspan="2" class="text-center">Menu</th>
                 </tr>
                 <tr>
                     <th>Kuantitas</th>

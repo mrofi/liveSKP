@@ -371,7 +371,7 @@ desired effect
         ajax: '{{ $dataUrl or url($base.'/data') }}',
         columns: [
           @foreach(array_keys($fields) as $field) { name: '{{ $field }}', data: '{{ $field }}', sortable: {{ in_array($field, $unsortables) ? 'false' : 'true'}}, searchable: {{ in_array($field, $unsortables) ? 'false' : 'true'}}}, @endforeach
-          @if (!isset($withoutMenu)) { name: 'menu', data: 'menu', sortable: false }, @endif
+          @if (!isset($withoutMenu)) { name: 'menu', data: 'menu', sortable: false, searchable: false }, @endif
         ],
     });
   @endif
@@ -379,6 +379,14 @@ desired effect
   })
 
 </script>
+
+@if (isset($withoutSearch) && $withoutSearch)
+<style type="text/css">
+  .dataTables_filter {
+    display: none;
+  }
+</style>
+@endif
 
 @yield('script.footer')
 

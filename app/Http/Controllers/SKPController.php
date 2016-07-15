@@ -53,9 +53,11 @@ class SKPController extends BaseController
         parent::getIndex();
         $fields = $this->model->getFields();
         $fields = array_except($fields, ['id', 'skp_id', 'satuan_kuantitas', 'satuan_kualitas', 'satuan_waktu', 'satuan_biaya']);
-        $fields = ['nomor' => 'Nomor'] + $fields + ['penilaian_kuantitas' => 'Penilaian Kuantitas', 'penilaian_kualitas' => 'Penilaian Kualitas', 'penilaian_waktu' => 'Penilaian Waktu', 'penilaian_biaya' => 'Penilaian Biaya '];
+        $fields = ['nomor' => 'Nomor'] + $fields + ['penilaian_kuantitas' => 'Penilaian Kuantitas', 'penilaian_kualitas' => 'Penilaian Kualitas', 'penilaian_waktu' => 'Penilaian Waktu', 'penilaian_biaya' => 'Penilaian Biaya ', 'nilai' => 'Nilai'];
         view()->share('fields', $fields);
-        $pns = $this->pns;
+        view()->share('unsortables', array_keys($fields));
+        view()->share('withoutSearch', true);
+            $pns = $this->pns;
         $penilai = $pns->atasan;
         $dataUrl = $this->dataUrl ? $this->dataUrl : action('SKPController@anyData', ['id' => $this->skp ? $this->skp->id : 0]);
         return view('app.skp.index', compact('pns', 'penilai', 'dataUrl'));
@@ -156,6 +158,9 @@ class SKPController extends BaseController
             })
             ->addColumn('nomor', function($data) {
                 return AutoNumbering::getNumber();
+            })
+            ->addColumn('nilai', function($data) {
+                return $data->nilai ?: '-';
             })
             ->editColumn('menu', function ($data) use ($id) {
                 if ($data->skp->pns->id == $id) {
