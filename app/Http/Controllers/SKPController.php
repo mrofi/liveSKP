@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Carbon\Carbon;
 use Form;
 use App\SKP;
 use App\PNS;
@@ -83,10 +84,23 @@ class SKPController extends BaseController
             return !$item->penilaian;
         })->count() == 0;
         view()->share('doneButton', $doneButton);
+        view()->share('doneButtonUrl', action('SKPController@getDone', compact('skp_id')));
         view()->share('breadcrumb2', 'Penilaian SKP');
         view()->share('breadcrumb2Url', '/penilaian');
         view()->share('noAddButton', true);
         return $this->getIndex();
+    }
+
+    public function getDone($skp_id)
+    {
+        $skp = SKP::with('targetKerja.penilaian')->findOrFail($skp_id);
+        if (!$skp->pns->atasan || $skp->pns->atasan->id != auth()->user()->pns->id) return abort('404');
+        $done = $skp->targetKerja->filter(function ($item) {
+            return !$item->penilaian;
+        })->count() == 0;
+        if (!$done) return back();
+        $skp->update(['tanggal_penilaian' => Carbon::now()]);
+        return redirect('penilaian');
     }
 
     protected function processRequest($request)

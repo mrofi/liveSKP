@@ -47,6 +47,7 @@ Route::group(['prefix' => '/', 'middleware' => ['web']], function () {
             Route::get('data', 'PenilaianController@data');
             Route::get('{target_kerja_id}', 'PenilaianController@getEdit');
             Route::get('skp/{skp_id}', 'SKPController@getShow');
+            Route::get('skp/{skp_id}/done', 'SKPController@getDone');
             Route::controller('skp', 'PenilaianController');
         });
         Route::controller('setting', 'SettingController');
