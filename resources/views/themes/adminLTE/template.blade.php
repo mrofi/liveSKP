@@ -191,7 +191,7 @@ desired effect
                 </li>
               </ul>
             </li>
-            <li><a href="/logout"><i class="fa fa-lock"></i> <span class="hidden-xs hidden-sm">Logout</span></a></li>
+            <li><a href="/logout"><i class="fa fa-lock"></i> <span class="hidden-sm">Logout</span></a></li>
           </ul>
         </div>
         <!-- /.navbar-collapse -->
