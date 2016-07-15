@@ -76,13 +76,14 @@ class SKPController extends BaseController
     public function getShow($skp_id)
     {
         $skp = SKP::with('targetKerja.penilaian')->findOrFail($skp_id);
-        if (!$skp->pns->atasan || $skp->pns->atasan->id != auth()->user()->pns->id) return abort('404');
+        $user = auth()->user();
+        if ((!$user->is_admin && !$user->pns) || ($skp->pns && $user->pns && $skp->pns->atasan->id != $user->pns->id)) return abort('404');
         $this->pns = $skp->pns;
         $this->dataUrl = action('SKPController@anyData', ['id' => $skp_id]);
         $this->judulIndex = 'Penilaian SKP - '.$skp->pns->id;
         $this->deskripsiIndex = ' ';
         $this->breadcrumb3Index = $skp->pns->nama;
-        $doneButton = $skp->targetKerja->filter(function ($item) {
+        $doneButton = $user->pns && $skp->targetKerja->filter(function ($item) {
             return !$item->penilaian;
         })->count() == 0;
         view()->share('doneButton', $doneButton);
@@ -97,7 +98,7 @@ class SKPController extends BaseController
     {
         $skp = SKP::with('targetKerja.penilaian')->findOrFail($skp_id);
         if (!$skp->pns->atasan || $skp->pns->atasan->id != auth()->user()->pns->id) return abort('404');
-        $done = $skp->targetKerja->filter(function ($item) {
+        $done = auth()->user()->pns && $skp->targetKerja->filter(function ($item) {
             return !$item->penilaian;
         })->count() == 0;
         if (!$done) return back();
@@ -117,7 +118,7 @@ class SKPController extends BaseController
 
     protected function processDatatables($datatables)
     {
-        $id = auth()->user()->pns->id;
+        $id = auth()->user()->pns ? auth()->user()->pns->id : null;
         return $datatables
             ->editColumn('kuantitas', function($data) {
                 return $data->kuantitas.' '.$data->satuan_kuantitas;
@@ -166,6 +167,10 @@ class SKPController extends BaseController
                 return $data->nilai ?: '-';
             })
             ->editColumn('menu', function ($data) use ($id) {
+                if (!$id) {
+                    return '-';
+                }
+
                 if ($data->skp->pns->id == $id) {
                     return
                     '<a href="'.action($this->baseClass.'@getEdit', [$data->{$this->model->getKeyName()}]).'" class="btn btn-small btn-link"><i class="fa fa-xs fa-pencil"></i> Edit</a> '.

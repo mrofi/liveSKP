@@ -99,10 +99,10 @@ desired effect
           <ul class="nav navbar-nav">
             <!-- Optionally, you can add icons to the links -->
             <li class="@if(request()->is('home'))active @endif"><a href="{{ asset('home') }}"><i class="fa fa-lg fa-home"></i></a></li>
-          @if(!auth()->user()->is_admin)
-            @if(count(auth()->user()->pns->bawahan))
+            @if(auth()->user()->is_admin || $usercount(auth()->user()->pns->bawahan))
             <li class="@if(request()->is('penilaian*'))active @endif"><a href="{{ asset('penilaian') }}"></i> <span>Penilaian SKP</span></a></li>
             @endif
+          @if(!auth()->user()->is_admin)
             <li class="@if(request()->is('skp*'))active @endif"><a href="{{ asset('skp') }}"><span>SKP Saya</span></a></li>
             <li class="@if(request()->is('me*'))active @endif"><a href="{{ asset('me') }}"><span>Profile Saya</span></a></li>
           @else
@@ -110,8 +110,6 @@ desired effect
             <li class="@if(request()->is('jabatan*'))active @endif"><a href="{{ asset('jabatan') }}"><span>Jabatan</span></a></li>
             <li class="@if(request()->is('pns*'))active @endif"><a href="{{ asset('pns') }}"><span>PNS</span></a></li>
             <li class="@if(request()->is('me*'))active @endif"><a href="{{ asset('me') }}"><span>Profile Saya</span></a></li>
-
-            <li class="@if(request()->is('setting*'))active @endif"><a href="{{ asset('setting') }}"><span>Setting</span></a></li>
           @endif
             <!-- <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span class="caret"></span></a>
@@ -235,10 +233,10 @@ desired effect
   <footer class="main-footer">
     <!-- To the right -->
     <div class="pull-right hidden-xs">
-      Anything you want
+      Script by <a href="mailto:achanet2384@gmail.com">Tjandra Adji</a>
     </div>
     <!-- Default to the left -->
-    <strong>Copyright &copy; 2015 <a href="#">Company</a>.</strong> All rights reserved.
+    <strong>Copyright &copy; 2015 - {{\Carbon\Carbon::now()->format('Y')}} - <a href="#"></a>SKPNS - Penilaian Sasaran Kerja Pegawai Negeri Sipil Kota Pekalongan.</strong> All rights reserved.
   </footer>
 
   <!-- /.control-sidebar -->

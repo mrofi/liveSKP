@@ -37,17 +37,25 @@ class PenilaianController extends BaseController
 
     public function data()
     {
-        $bawahan = auth()->user()->pns->bawahan;
+        $user = auth()->user();
 
-        $ids = [];
+        if (!$user->is_admin && (!$user->pns || !$user->pns->bawahan)) return abort('404');
 
-        foreach ($bawahan as $pns) {
-            foreach ($pns->skps()->whereNull('tanggal_penilaian')->lists('id') as $id) {
-                $ids[] = $id;
+        $datas = $this->model->select([null => $this->model->getKeyName()]+$this->model->getFillable());
+
+        if ($user->pns) {
+
+            $bawahan = $user->pns->bawahan;
+
+            $ids = [];
+            foreach ($bawahan as $pns) {
+                foreach ($pns->skps()->whereNull('tanggal_penilaian')->lists('id') as $id) {
+                    $ids[] = $id;
+                }
             }
-        }
 
-        $datas = $this->model->select([null => $this->model->getKeyName()]+$this->model->getFillable())->whereIn('id', $ids);
+            $datas = $datas->whereIn('id', $ids);
+        }
 
         if ($dependencies = $this->model->dependencies()) {
             $datas = $datas->with($dependencies);
