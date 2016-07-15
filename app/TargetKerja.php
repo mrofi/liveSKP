@@ -6,7 +6,7 @@ class TargetKerja extends BaseModel
 {
     protected $table = 'target_kerja';
     
-    protected $fillable = ['skp_id', 'tugas', 'angka_kredit', 'kuantitas', 'satuan_kuantitas', 'kualitas', 'satuan_kualitas', 'waktu', 'satuan_waktu', 'biaya', 'satuan_biaya'];
+    protected $fillable = ['skp_id', 'tugas', 'angka_kredit', 'kuantitas', 'satuan_kuantitas', 'kualitas', 'satuan_kualitas', 'waktu', 'satuan_waktu', 'biaya', 'satuan_biaya', 'nilai'];
 
     protected $rules = [
         'tugas' => 'required',

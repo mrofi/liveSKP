@@ -52,7 +52,7 @@ class SKPController extends BaseController
         }
         parent::getIndex();
         $fields = $this->model->getFields();
-        $fields = array_except($fields, ['id', 'skp_id', 'satuan_kuantitas', 'satuan_kualitas', 'satuan_waktu', 'satuan_biaya']);
+        $fields = array_except($fields, ['id', 'skp_id', 'satuan_kuantitas', 'satuan_kualitas', 'satuan_waktu', 'satuan_biaya', 'nilai']);
         $fields = ['nomor' => 'Nomor'] + $fields + ['penilaian_kuantitas' => 'Penilaian Kuantitas', 'penilaian_kualitas' => 'Penilaian Kualitas', 'penilaian_waktu' => 'Penilaian Waktu', 'penilaian_biaya' => 'Penilaian Biaya ', 'nilai' => 'Nilai'];
         view()->share('fields', $fields);
         view()->share('unsortables', array_keys($fields));
@@ -101,7 +101,10 @@ class SKPController extends BaseController
             return !$item->penilaian;
         })->count() == 0;
         if (!$done) return back();
-        $skp->update(['tanggal_penilaian' => Carbon::now()]);
+
+        $nilai = $skp->targetKerja->average('nilai');
+        $tanggal_penilaian = Carbon::now();
+        $skp->update(compact('nilai', 'tanggal_penilaian'));
         return redirect('penilaian');
     }
 
