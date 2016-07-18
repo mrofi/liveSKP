@@ -106,6 +106,7 @@ desired effect
             <li class="@if(request()->is('skp*'))active @endif"><a href="{{ asset('skp') }}"><span>SKP Saya</span></a></li>
             <li class="@if(request()->is('me*'))active @endif"><a href="{{ asset('me') }}"><span>Profile Saya</span></a></li>
           @else
+            <li class="@if(request()->is('profileMatching*'))active @endif"><a href="{{ asset('profileMatching') }}"><span>Profile Matching</span></a></li>
             <li class="@if(request()->is('instansi*'))active @endif"><a href="{{ asset('instansi') }}"><span>Instansi</span></a></li>
             <li class="@if(request()->is('jabatan*'))active @endif"><a href="{{ asset('jabatan') }}"><span>Jabatan</span></a></li>
             <li class="@if(request()->is('pns*'))active @endif"><a href="{{ asset('pns') }}"><span>PNS</span></a></li>

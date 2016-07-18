@@ -36,6 +36,7 @@ Route::group(['prefix' => '/', 'middleware' => ['web']], function () {
         });
 
         Route::controller('profile', 'ProfileController');
+        Route::controller('profileMatching', 'ProfileMatchingController');
         Route::get('me', ['uses' => 'ProfileController@me']);
         Route::post('me', ['uses' => 'ProfileController@meUpdate']);
         Route::controller('instansi', 'InstansiController');

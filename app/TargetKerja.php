@@ -22,6 +22,11 @@ class TargetKerja extends BaseModel
         return $this->hasOne(Penilaian::class);
     }
 
+    public function score()
+    {
+        return $this->hasOne(Score::class);
+    }
+
     public function skp()
     {
         return $this->belongsTo(SKP::class);
