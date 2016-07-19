@@ -34,14 +34,16 @@ class ProfileMatchingController extends BaseController
         view()->share('breadcrumb2Icon', 'search-plus');
         view()->share('noAddButton', true);
         view()->share('withoutMenu', true);
+        view()->share('withoutSearch', true);
     }
 
     public function getIndex()
     {
+        parent::getIndex();
         $dataUrl = action('ProfileMatchingController@anyData', request()->all());
         view()->share(compact('dataUrl'));
 
-        return parent::getIndex();
+        return view('app.profileMatching.index');
     }
 
     public function anyData($id = null)
