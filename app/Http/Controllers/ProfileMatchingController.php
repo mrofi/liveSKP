@@ -46,8 +46,10 @@ class ProfileMatchingController extends BaseController
 
     public function anyData($id = null)
     {
+        $datas = $this->model;
+        $dependencies = $datas->dependencies();
         if ($id) {
-            $model = SKP::with('targetKerja')->findOrFail($id);
+            $model = $datas->with($dependencies)->findOrFail($id);
             $id = $model->targetKerja->pluck('id')->toArray();
         }
             
@@ -61,7 +63,7 @@ class ProfileMatchingController extends BaseController
                 return AutoNumbering::getNumber();
             })
             ->addColumn('pns', function($data) {
-                $pns = $data->targetKerja->pns;
+                $pns = $data->targetKerja->skp->pns;
                 return $pns->nama. ' - '.$pns->nip;
             })
             ->addColumn('tugas', function($data) {
@@ -73,12 +75,8 @@ class ProfileMatchingController extends BaseController
             ->addColumn('total_nilai', function($data) {
                 return $data->targetKerja->angka_kredit;
             })
-            ->editColumn('penilai_id', function($data) {
-                if ($data->penilai !== null) return $data->penilai->nip . ' - '. $data->penilai->nama;
-                return '-';
-            })
-            ->removeColumn('periode')
-            ->removeColumn('pns')
-            ->removeColumn('penilai');
+            ->editColumn('nilai', function($data) {
+                return $data->targetKerja->nilai;
+            });
     }
 }
