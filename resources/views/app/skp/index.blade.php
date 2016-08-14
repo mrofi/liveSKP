@@ -93,7 +93,10 @@
                     <th colspan="4" class="text-center">Target</th>
                     <th colspan="4" class="text-center">Realisasi</th>
                     <th rowspan="2" class="text-center">Nilai</th>
+                    <th rowspan="2" class="text-center">Keterangan</th>
+                    @if (!isset($withoutMenu))
     				<th rowspan="2" class="text-center">Menu</th>
+                    @endif
                 </tr>
                 <tr>
                     <th>Kuantitas</th>

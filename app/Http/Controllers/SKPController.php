@@ -53,7 +53,7 @@ class SKPController extends BaseController
         parent::getIndex();
         $fields = $this->model->getFields();
         $fields = array_except($fields, ['id', 'skp_id', 'satuan_kuantitas', 'satuan_kualitas', 'satuan_waktu', 'satuan_biaya', 'nilai']);
-        $fields = ['nomor' => 'Nomor'] + $fields + ['penilaian_kuantitas' => 'Penilaian Kuantitas', 'penilaian_kualitas' => 'Penilaian Kualitas', 'penilaian_waktu' => 'Penilaian Waktu', 'penilaian_biaya' => 'Penilaian Biaya ', 'nilai' => 'Nilai'];
+        $fields = ['nomor' => 'Nomor'] + $fields + ['penilaian_kuantitas' => 'Penilaian Kuantitas', 'penilaian_kualitas' => 'Penilaian Kualitas', 'penilaian_waktu' => 'Penilaian Waktu', 'penilaian_biaya' => 'Penilaian Biaya ', 'nilai' => 'Nilai', 'keterangan' => 'Keterangan'];
         view()->share('fields', $fields);
         view()->share('unsortables', array_keys($fields));
         view()->share('withoutSearch', true);
@@ -86,6 +86,7 @@ class SKPController extends BaseController
         $doneButton = $user->pns && $skp->targetKerja->filter(function ($item) {
             return !$item->penilaian;
         })->count() == 0;
+        view()->share('withoutMenu', true);
         view()->share('doneButton', $doneButton);
         view()->share('doneButtonUrl', action('SKPController@getDone', compact('skp_id')));
         view()->share('breadcrumb2', 'Penilaian SKP');
@@ -165,6 +166,9 @@ class SKPController extends BaseController
             })
             ->addColumn('nilai', function($data) {
                 return $data->nilai ?: '-';
+            })
+            ->addColumn('keterangan', function($data) {
+                return $data->getKeterangan($data->nilai);
             })
             ->editColumn('menu', function ($data) use ($id) {
                 if (!$id) {

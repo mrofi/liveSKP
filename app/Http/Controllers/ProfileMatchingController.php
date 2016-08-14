@@ -26,6 +26,7 @@ class ProfileMatchingController extends BaseController
             'biaya' => 'Nilai Biaya',
             'total_nilai' => 'Total Nilai',
             'nilai' => 'Nilai',
+            'keterangan' => 'Keterangan',
         ];
 
         view()->share('fields', $fields);
@@ -76,6 +77,9 @@ class ProfileMatchingController extends BaseController
             })
             ->addColumn('total_nilai', function($data) {
                 return $data->targetKerja->angka_kredit;
+            })
+            ->addColumn('keterangan', function($data) {
+                return $data->getKeterangan($data->targetKerja->nilai);
             })
             ->editColumn('nilai', function($data) {
                 return $data->targetKerja->nilai;
