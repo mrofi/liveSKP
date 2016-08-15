@@ -45,6 +45,7 @@ Route::group(['prefix' => '/', 'middleware' => ['web']], function () {
         Route::controller('skp', 'SKPController');
         Route::group(['prefix' => 'penilaian'], function() {
             Route::get('/', 'PenilaianController@semua');
+            Route::get('print', 'PenilaianController@getPrint');
             Route::get('data', 'PenilaianController@data');
             Route::get('{target_kerja_id}', 'PenilaianController@getEdit');
             Route::get('skp/{skp_id}', 'SKPController@getShow');

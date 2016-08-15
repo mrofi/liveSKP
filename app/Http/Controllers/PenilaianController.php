@@ -25,13 +25,17 @@ class PenilaianController extends BaseController
         view()->share('breadcrumb2Icon', 'files-o');
     }
 
-    public function semua()
+    public function semua($print = false)
     {
         parent::getIndex();
         view()->share('breadcrumb3', 'Lihat Semua');
         $fields = $this->model->getFields();
         $fields = array_except($fields, ['periode_id', 'penilai_id']);
         view()->share('fields', $fields);
+        if ($print) {
+            return view('app.penilaian.print');
+        }
+        view()->share(['printUrl' => url('penilaian/print')]);
         return view('app.penilaian.index');
     }
 
@@ -134,6 +138,11 @@ class PenilaianController extends BaseController
             ->removeColumn('periode')
             ->removeColumn('pns')
             ->removeColumn('penilai');
+    }
+
+    public function getPrint()
+    {
+        return $this->semua(true);
     }
 
 }
