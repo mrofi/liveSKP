@@ -210,9 +210,6 @@ desired effect
         <h1 @if (isset($titleCenter) && $titleCenter == true) class="text-center" @endif>
           {{ $judul or 'Page Header' }}
           <small>{{ $deskripsi or 'Optional description' }}</small>
-          @if (isset($printUrl))
-          <a href="{{$printUrl}}" class="btn btn-success pull-right"><i class="fa fa-print"></i> Cetak</a>
-          @endif
         </h1>
         <ol class="breadcrumb">
         @if(isset($breadcrumbLevel))
@@ -225,7 +222,13 @@ desired effect
 
       <!-- Main content -->
       <section class="content">
-
+        <div class="row">
+          <div class="col-md-12">
+            @if (isset($printUrl))
+              <a href="{{$printUrl}}" class="btn btn-success pull-right"><i class="fa fa-print"></i> Cetak</a>
+            @endif
+          </div>
+        </div>
         @yield('content')
 
       </section>
