@@ -65,10 +65,10 @@ class SKPController extends BaseController
 
     public function anyData($id = null)
     {
-        // if ($id) {
-        //     $model = SKP::with('targetKerja')->findOrFail($id);
-        //     $id = $model->targetKerja->pluck('id')->toArray();
-        // }
+        if ($id) {
+            $model = SKP::with('targetKerja')->findOrFail($id);
+            $id = $model->targetKerja->pluck('id')->toArray();
+        }
             
         return parent::anyData($id);
     }
