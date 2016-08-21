@@ -50,10 +50,11 @@ class ProfileMatchingController extends BaseController
 
             return view('app.profileMatching.form');
         }
-
+        $hasil = $this->perhitunganProfileMatching(session()->get('input')->toArray());
         $dataUrl = action('ProfileMatchingController@anyData', request()->all());
         view()->share(compact('dataUrl'));
-        return view('app.profileMatching.index');
+        session()->forget('input');
+        return view('app.profileMatching.index', $hasil);
     }
 
     public function postSearch(Request $request)
@@ -63,6 +64,48 @@ class ProfileMatchingController extends BaseController
         });
         session()->put('input', $input);
         return redirect('profileMatching');
+    }
+
+    protected function getBobot($gap = 0)
+    {
+        $bobot = 100 - abs($gap);
+        if ($bobot < 0) {
+            return 0;
+        }
+
+        if ($gap > 0) {
+            $bobot += 0.5;
+        }
+
+        return $bobot;
+    }
+
+    protected function perhitunganProfileMatching(array $params = [])
+    {
+        // get original data
+        $data = $this->model->with($this->model->dependencies())->get();
+        // cari gap
+        $gap = $this->model->with($this->model->dependencies())->get()->map(function ($item) use ($params) {
+            foreach ($params as $kriteria => $value) {
+                $item->{$kriteria} = $item->{$kriteria} - $value;
+            }
+            return $item;
+        });
+
+        // pembobotan
+        $pembobotan = $this->model->with($this->model->dependencies())->get()->map(function ($item) use ($params) {
+            $jumlah = 0;
+            foreach ($params as $kriteria => $value) {
+                $jumlah += $item->{$kriteria} = $this->getBobot($item->{$kriteria});
+            }
+            $item->sum = $jumlah;
+            $item->average = $jumlah / count($params);
+            return $item;
+        });
+
+        $hasil = $pembobotan->sortByDesc('average');
+        
+        return compact('params', 'data', 'gap', 'pembobotan', 'hasil');
     }
 
     public function anyData($id = null)

@@ -15,7 +15,7 @@
         </div>
         <div class="col-md-9 row">
             <div class="col-xs-8 col-sm-4">
-                {!! Form::number('kuantitas',  null, ['class' => 'form-control', 'step' => '1', 'max' => '100']) !!}
+                {!! Form::number('kuantitas',  null, ['class' => 'form-control', 'step' => '1', 'max' => '100', 'required' => true]) !!}
             </div>
             <div class="col-xs-4 col-sm-8">
                 <p class="form-static-control">%</p>
@@ -29,7 +29,7 @@
         </div>
         <div class="col-md-9 row">
             <div class="col-xs-8 col-sm-4">
-                {!! Form::number('kualitas', null, ['class' => 'form-control', 'step' => '1', 'max' => '100']) !!}
+                {!! Form::number('kualitas', null, ['class' => 'form-control', 'step' => '1', 'max' => '100', 'required' => true]) !!}
             </div>
             <div class="col-xs-4 col-sm-8">
                 <p class="form-static-control">%</p>
@@ -43,7 +43,7 @@
         </div>
         <div class="col-md-9 row">
             <div class="col-xs-8 col-sm-4">
-                {!! Form::number('waktu', null, ['class' => 'form-control', 'step' => '1', 'max' => '100']) !!}
+                {!! Form::number('waktu', null, ['class' => 'form-control', 'step' => '1', 'max' => '100', 'required' => true]) !!}
             </div>
             <div class="col-xs-4 col-sm-8">
                 <p class="form-static-control">%</p>
@@ -57,7 +57,7 @@
         </div>
         <div class="col-md-9 row">
             <div class="col-xs-8 col-sm-4">
-                {!! Form::number('biaya', null, ['class' => 'form-control', 'step' => '1', 'max' => '100']) !!}
+                {!! Form::number('biaya', null, ['class' => 'form-control', 'step' => '1', 'max' => '100', 'required' => true]) !!}
             </div>
             <div class="col-xs-4 col-sm-8">
                 <p class="form-static-control">%</p>
