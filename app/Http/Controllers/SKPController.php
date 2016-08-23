@@ -86,7 +86,9 @@ class SKPController extends BaseController
         $doneButton = $user->pns && $skp->targetKerja->filter(function ($item) {
             return !$item->penilaian;
         })->count() == 0;
-        view()->share('withoutMenu', true);
+        if ($user->is_admin) {
+            view()->share('withoutMenu', true);
+        }
         view()->share('doneButton', $doneButton);
         view()->share('doneButtonUrl', action('SKPController@getDone', compact('skp_id')));
         view()->share('breadcrumb2', 'Penilaian SKP');
