@@ -43,33 +43,7 @@ class SKPController extends BaseController
         $this->skp = $this->pns->skps->last() ?: SKP::create(compact('pns_id', 'penilai_id'));
         view()->share('breadcrumb2', 'SKP Saya');
         view()->share('breadcrumb2Icon', 'file-o');
-    }
 
-    public function getIndex()
-    {
-        if ($this->pns == null) {
-            return back();
-        }
-        parent::getIndex();
-        $fields = $this->model->getFields();
-        $fields = array_except($fields, ['id', 'skp_id', 'satuan_kuantitas', 'satuan_kualitas', 'satuan_waktu', 'satuan_biaya', 'nilai']);
-        $fields = ['nomor' => 'Nomor'] + $fields + ['penilaian_kuantitas' => 'Penilaian Kuantitas', 'penilaian_kualitas' => 'Penilaian Kualitas', 'penilaian_waktu' => 'Penilaian Waktu', 'penilaian_biaya' => 'Penilaian Biaya ', 'nilai' => 'Nilai', 'keterangan' => 'Keterangan'];
-        view()->share('fields', $fields);
-        view()->share('unsortables', array_keys($fields));
-        view()->share('withoutSearch', true);
-            $pns = $this->pns;
-        $penilai = $pns->atasan;
-        $dataUrl = $this->dataUrl ? $this->dataUrl : action('SKPController@anyData', ['id' => $this->skp ? $this->skp->id : 0]);
-        return view('app.skp.index', compact('pns', 'penilai', 'dataUrl'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function getTambah()
-    {
         $dropdown = [
             'satuan_kuantitas' => [
                 'dokumen' => 'Dokumen',
@@ -89,14 +63,31 @@ class SKPController extends BaseController
                 'tahun' => 'Tahun',
             ],
             'satuan_biaya' => [
-                'jutaan' => 'Jutaan',
-                'miliyaran' => 'Miliyaran',
-                'triliunan' => 'Triliunan',
+                'juta' => 'Juta',
+                'miliyar' => 'Miliyar',
+                'triliun' => 'Triliun',
             ],
         ];
 
         view()->share($dropdown);
-        return parent::getTambah();
+    }
+
+    public function getIndex()
+    {
+        if ($this->pns == null) {
+            return back();
+        }
+        parent::getIndex();
+        $fields = $this->model->getFields();
+        $fields = array_except($fields, ['id', 'skp_id', 'satuan_kuantitas', 'satuan_kualitas', 'satuan_waktu', 'satuan_biaya', 'nilai']);
+        $fields = ['nomor' => 'Nomor'] + $fields + ['penilaian_kuantitas' => 'Penilaian Kuantitas', 'penilaian_kualitas' => 'Penilaian Kualitas', 'penilaian_waktu' => 'Penilaian Waktu', 'penilaian_biaya' => 'Penilaian Biaya ', 'nilai' => 'Nilai', 'keterangan' => 'Keterangan'];
+        view()->share('fields', $fields);
+        view()->share('unsortables', array_keys($fields));
+        view()->share('withoutSearch', true);
+            $pns = $this->pns;
+        $penilai = $pns->atasan;
+        $dataUrl = $this->dataUrl ? $this->dataUrl : action('SKPController@anyData', ['id' => $this->skp ? $this->skp->id : 0]);
+        return view('app.skp.index', compact('pns', 'penilai', 'dataUrl'));
     }
 
     public function anyData($id = null)
