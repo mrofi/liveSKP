@@ -30,7 +30,7 @@
                 {!! Form::text('kuantitas', $skp->kuantitas, ['class' => 'form-control']) !!}
             </div>
             <div class="col-sm-8">
-                {!! Form::select('satuan_kuantitas', array_merge($satuan_kuantitas, $skp->satuan_kuantitas ? [$skp->satuan_kuantitas => ucwords($skp->satuan_kuantitas)] : []), $skp->satuan_kuantitas, ['class' => 'form-control', 'placeholder' => 'Satuan']) !!}
+                {!! Form::select('satuan_kuantitas', array_merge($satuan_kuantitas, $skp->satuan_kuantitas ? [$skp->satuan_kuantitas => ucwords($skp->satuan_kuantitas)] : []), $skp->satuan_kuantitas, ['class' => 'form-control', 'placeholder' => 'Satuan', 'required' => 'required']) !!}
             </div>
         </div>
     </div>
@@ -44,7 +44,7 @@
                 {!! Form::text('kualitas', $skp->kualitas, ['class' => 'form-control']) !!}
             </div>
             <div class="col-sm-8">
-                {!! Form::input('numeric', 'satuan_kualitas', $skp->satuan_kualitas, ['class' => 'form-control', 'placeholder' => '% (persen)']) !!}
+                {!! Form::select('satuan_kualitas', array_merge($satuan_kualitas, $skp->satuan_kualitas ? [$skp->satuan_kualitas => ucwords($skp->satuan_kualitas)] : []), $skp->satuan_kualitas, ['class' => 'form-control', 'placeholder' => 'Satuan', 'required' => 'required']) !!}
             </div>
         </div>
     </div>
@@ -58,7 +58,7 @@
                 {!! Form::text('waktu', $skp->waktu, ['class' => 'form-control']) !!}
             </div>
             <div class="col-sm-8">
-                {!! Form::select('satuan_waktu', array_merge($satuan_waktu, $skp->satuan_waktu ? [$skp->satuan_waktu => ucwords($skp->satuan_waktu)] : []), $skp->satuan_waktu, ['class' => 'form-control', 'placeholder' => 'Satuan']) !!}
+                {!! Form::select('satuan_waktu', array_merge($satuan_waktu, $skp->satuan_waktu ? [$skp->satuan_waktu => ucwords($skp->satuan_waktu)] : []), $skp->satuan_waktu, ['class' => 'form-control', 'placeholder' => 'Satuan', 'required' => 'required']) !!}
             </div>
         </div>
     </div>
@@ -72,7 +72,7 @@
                 {!! Form::text('biaya', $skp->biaya, ['class' => 'form-control']) !!}
             </div>
             <div class="col-sm-8">
-                {!! Form::select('satuan_biaya', array_merge($satuan_biaya, $skp->satuan_biaya ? [$skp->satuan_biaya => ucwords($skp->satuan_biaya)] : []), $skp->satuan_biaya, ['class' => 'form-control', 'placeholder' => 'Satuan']) !!}
+                {!! Form::select('satuan_biaya', array_merge($satuan_biaya, $skp->satuan_biaya ? [$skp->satuan_biaya => ucwords($skp->satuan_biaya)] : []), $skp->satuan_biaya, ['class' => 'form-control', 'placeholder' => 'Satuan', 'required' => 'required']) !!}
             </div>
         </div>
     </div>

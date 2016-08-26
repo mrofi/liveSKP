@@ -78,6 +78,9 @@ class SKPController extends BaseController
                 'surat keputusan' => 'Surat Keputusan',
                 'laporan' => 'Laporan',
             ],
+            'satuan_kualitas' => [
+                'persen' => 'Persen',
+            ],
             'satuan_waktu' => [
                 'bulan' => 'Bulan',
                 'triwulan' => 'Triwulan',
