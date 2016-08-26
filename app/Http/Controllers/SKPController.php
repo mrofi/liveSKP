@@ -63,6 +63,39 @@ class SKPController extends BaseController
         return view('app.skp.index', compact('pns', 'penilai', 'dataUrl'));
     }
 
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getTambah()
+    {
+        $dropdown = [
+            'satuan_kuantitas' => [
+                'dokumen' => 'Dokumen',
+                'konsep' => 'Konsep',
+                'naskah' => 'Naskah',
+                'surat keputusan' => 'Surat Keputusan',
+                'laporan' => 'Laporan',
+            ],
+            'satuan_waktu' => [
+                'bulan' => 'Bulan',
+                'triwulan' => 'Triwulan',
+                'caturwulan' => 'Caturwulan',
+                'semester' => 'Semester',
+                'tahun' => 'Tahun',
+            ],
+            'satuan_biaya' => [
+                'jutaan' => 'Jutaan',
+                'miliyaran' => 'Miliyaran',
+                'triliunan' => 'Triliunan',
+            ],
+        ];
+
+        view()->share($dropdown);
+        return parent::getTambah();
+    }
+
     public function anyData($id = null)
     {
         if ($id) {
