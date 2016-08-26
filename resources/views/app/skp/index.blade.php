@@ -62,10 +62,11 @@
             </div>
         @endif
     </div>
-    <div class="col-sm-2" style="padding-top: 3em; padding-bottom: 3em;">
+    <div class="col-sm-2 hidden-print" style="padding-top: 3em; padding-bottom: 3em;">
         @if (isset($doneButton) && $doneButton)
             <a href="{{$doneButtonUrl}}" class="btn btn-success btn-lg btn-block"><i class="fa fa-check"></i> Selesai Beri Nilai</a>
         @endif
+        <button class="btn btn-success btn-lg btn-block" onclick="javascript:window.print();"><i class="fa fa-check"></i> Cetak</button>
     </div>
 </div>
 <div class="row">
@@ -78,7 +79,7 @@
 
 ?>
 @if(!$noAddButton) 
-<h4>
+<h4 class="hidden-print">
 	<a href="{{ action($baseClass.'@getTambah') }}" class="btn btn-sm btn-success">Tambah</a> <small>Klik untuk menambah data tugas kerja.</small>
 </h4>
 @endif
