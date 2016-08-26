@@ -66,7 +66,7 @@
         @if (isset($doneButton) && $doneButton)
             <a href="{{$doneButtonUrl}}" class="btn btn-success btn-lg btn-block"><i class="fa fa-check"></i> Selesai Beri Nilai</a>
         @endif
-        <button class="btn btn-success btn-lg btn-block" onclick="javascript:window.print();"><i class="fa fa-check"></i> Cetak</button>
+        <button class="btn btn-success btn-lg btn-block" onclick="javascript:window.print();"><i class="fa fa-print"></i> Cetak</button>
     </div>
 </div>
 <div class="row">
